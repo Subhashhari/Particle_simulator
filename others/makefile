@@ -19,10 +19,10 @@ compile_java:
 	javac $(JAVA_FILES)
 
 # Generate JNI header file
-generate_header: compile_java
+generate_header: compile_java`
 	@echo "Generating JNI header file..."
 	javac -h . $(JAVA_FILES)
-
+	
 # Compile C++ shared library
 compile_cpp: generate_header
 	@echo "Compiling C++ shared library..."
