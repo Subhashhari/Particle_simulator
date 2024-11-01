@@ -31,4 +31,3 @@ run: build
 .PHONY: clean
 clean:
 	rm -rf $(OUT_DIR) $(HEADERS_DIR) $(RESOURCES_DIR)/libParticleSystem.so
-	find $(SRC_JAVA) -name "*.class" -type f -delete
