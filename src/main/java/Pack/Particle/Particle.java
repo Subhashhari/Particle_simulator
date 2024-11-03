@@ -12,6 +12,7 @@ public class Particle {
     private float charge;
     private Vector<Float> velocity; // Assuming 2D or 3D velocity vector
     private Vector<Float> position; // Position vector in space
+    private Vector<Float> force;
     private float size;
     private int lifespan;
 
@@ -30,11 +31,12 @@ public class Particle {
     }
 
     // Constructor
-    public Particle(float mass, float charge, Vector<Float> velocity, Vector<Float> position, float size, int lifespan, String color, boolean hasTrail) {
+    public Particle(float mass, float charge, Vector<Float> velocity, Vector<Float> position, Vector<Float> force, float size, int lifespan, String color, boolean hasTrail) {
         this.mass = mass;
         this.charge = charge;
         this.velocity = velocity;
         this.position = position;
+        this.force = force;
         this.size = size;
         this.lifespan = lifespan;
         this.color = color;
@@ -74,6 +76,14 @@ public class Particle {
         this.position = position;
     }
 
+    public Vector<Float> getForce() {
+        return force;
+    }
+
+    public void setForce(Vector<Float> force) {
+        this.force = force;
+    }
+
     public float getSize() {
         return size;
     }
@@ -105,16 +115,9 @@ public class Particle {
     public void setTrail(boolean hasTrail) {
         this.hasTrail = hasTrail;
     }
-
-    // Method to update particle's position and velocity (invoking JNI)
+    
+    //public native void calcForce(); // To be implemented in C++ using JNI
     public native void update(); // To be implemented in C++ using JNI
-
-    // Uncomment the following methods if you have implemented them in C++
-    // Method to apply force to the particle (invoking JNI)
-    // public native void applyForce(float fx, float fy);
-
-    // Method to set particle properties (invoking JNI)
-    // public native void setProperties(float mass, float charge, float size, int lifespan);
 
     @Override
     public String toString() {
