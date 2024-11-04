@@ -1,4 +1,5 @@
-import java.util.vector;
+import java.util.Vector;
+import Pack.ParticleSystem;
 
 public class Emitter
 {
@@ -6,15 +7,18 @@ public class Emitter
     private int emissionRate;
     private float spread;
     private float angle;
+    private float speed;
     private boolean isEmitting;
+    private ParticleSystem system;
 
-    public Emitter(Vector<Float> position, int emissionRate, float spread, float angle)
+    public Emitter(Vector<Float> position, int emissionRate, float spread, float angle, ParticleSystem ps)
     {
         this.position = position;
         this.emissionRate = emissionRate;
         this.spread = spread;
         this.angle = angle;
         this.isEmitting = false;
+        this.system = ps;
     }
     
     public Vector<Float> getPosition() {
@@ -49,13 +53,24 @@ public class Emitter
         this.angle = angle;
     }
 
+    public void getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
     public boolean isEmitting() {
         return isEmitting;
     }
 
+    public native float[][] getVelocities();
+
     public void emitParticles() {
         this.isEmitting = true;
+        float[][] velocities = getVelocities();
+        system.addParticles(position, velocities);
     }
     
-
 }

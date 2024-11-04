@@ -42,6 +42,13 @@ public class ParticleSystem
         particles.add(new Particle(3.0f, 1.0f, new Vector<>(List.of(5.5f, 0.5f)), new Vector<>(List.of(2.0f, 1.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
 
     }    
+    public void addParticles(Vector<Float> postion, float[][] velocities)
+    {
+        for(float[] v : velocities)
+        {
+            particles.add(new Particle(1.0f, 1.0f, position, new Vector<>(List.of(v[0], v[1])), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
+        }
+    }
     private void addFieldPoint()
     {
         fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 0.0f)), 1.0f, "A"));
