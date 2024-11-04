@@ -55,7 +55,7 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
 
         jmethodID getPositionMethod = env->GetMethodID(particleClass, "getPosition", "()Ljava/util/Vector;");
         jmethodID getChargeMethod = env->GetMethodID(particleClass, "getCharge", "()F");
-        jmethodID setForceMethod = env->GetMethodID(particleClass, "setForce", "([F)V");
+        jmethodID setForceMethod = env->GetMethodID(particleClass, "setForce", "(Ljava/util/Vector;)V");
 
         if (!getPositionMethod || !getChargeMethod || !setForceMethod) {
             cerr << "Could not find particle methods." << endl;

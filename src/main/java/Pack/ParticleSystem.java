@@ -25,6 +25,7 @@ public class ParticleSystem
         addParticle();
         addFieldPoint();
         setForces();
+        display();
     }
     public Vector<Particle> getParticles()
     {
@@ -46,6 +47,13 @@ public class ParticleSystem
         fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 0.0f)), 1.0f, "A"));
         fieldPoints.add(new FieldPoint(new Vector<>(List.of(5.0f, 0.0f)), 1.0f, "A"));
         fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 5.0f)), 1.0f, "B"));
+    }
+    private void display()
+    {
+        for(int i=0;i<particles.size();i++)
+        {
+            System.out.println(particles.get(i).toString());
+        }
     }
 
     public native void setForces();

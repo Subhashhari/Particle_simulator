@@ -126,6 +126,7 @@ public class Particle {
                 ", charge=" + charge +
                 ", velocity=" + velocity +
                 ", position=" + position +
+                ", force=" + force +
                 ", size=" + size +
                 ", lifespan=" + lifespan +
                 ", color='" + color + '\'' +
