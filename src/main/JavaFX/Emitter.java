@@ -34,7 +34,7 @@ public class Emitter {
             double angle = baseAngle + (random.nextDouble() - 0.5) * spread;
             double velocityX = speed * Math.cos(angle);
             double velocityY = speed * Math.sin(angle);
-            particles.add(new Particle(x, y, velocityX, velocityY, 3, Color.ORANGE));
+            particles.add(new Particle(x, y, velocityX, velocityY, 2, Color.ORANGE));
         }
     }
 
