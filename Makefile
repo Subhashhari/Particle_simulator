@@ -32,3 +32,5 @@ run: build
 clean:
 	rm -rf $(OUT_DIR) $(HEADERS_DIR) $(RESOURCES_DIR)/libParticleSystem.so
 	rm -rf target
+	rm -rf src/resources
+	rm -rf out

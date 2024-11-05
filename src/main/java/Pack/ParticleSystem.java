@@ -25,6 +25,10 @@ public class ParticleSystem
         addParticle();
         addFieldPoint();
         setForces();
+        update();
+        display();
+        setForces();
+        update();
         display();
     }
     public Vector<Particle> getParticles()
@@ -55,7 +59,14 @@ public class ParticleSystem
             System.out.println(particles.get(i).toString());
         }
     }
-
+    private void update()
+    {
+        for(int i=0;i<particles.size();i++)
+        {
+            particles.get(i).update();
+        }
+        // System.out.println("updating");
+    }
     public native void setForces();
 }
 
