@@ -18,18 +18,10 @@ public class ParticleSystem
 
     private Vector<Particle> particles;
     private Vector<FieldPoint> fieldPoints;
-    public ParticleSystem()
+    public ParticleSystem() //initiate particle system
     {
         particles = new Vector<>();
         fieldPoints = new Vector<>();
-        addParticle();
-        addFieldPoint();
-        setForces();
-        update();
-        display();
-        setForces();
-        update();
-        display();
     }
     public Vector<Particle> getParticles()
     {
@@ -39,13 +31,15 @@ public class ParticleSystem
     {
         return fieldPoints;
     }
-    private void addParticle()
+    //function to add particle
+    private void addParticle(float mass, float charge, Vector<Float> velocity, Vector<Float> position, Vector<Float> force, float size, int lifespan, String color, boolean hasTrai)
     {
-        particles.add(new Particle(1.0f, 1.0f, new Vector<>(List.of(0.5f, 0.5f)), new Vector<>(List.of(1.0f, 1.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
-        particles.add(new Particle(2.0f, 1.0f, new Vector<>(List.of(1.5f, 0.5f)), new Vector<>(List.of(1.0f, 5.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
-        particles.add(new Particle(3.0f, 1.0f, new Vector<>(List.of(5.5f, 0.5f)), new Vector<>(List.of(2.0f, 1.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
+        particles.add(new Particle(mass,charge,velocity,position,force,size,lifespan,color,hasTrai));
+        // particles.add(new Particle(2.0f, 1.0f, new Vector<>(List.of(1.5f, 0.5f)), new Vector<>(List.of(1.0f, 5.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
+        // particles.add(new Particle(3.0f, 1.0f, new Vector<>(List.of(5.5f, 0.5f)), new Vector<>(List.of(2.0f, 1.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
 
     }    
+    //adds particle by taking vector of position and vector of velocities
     public void addParticles(Vector<Float> position, float[][] velocities)
     {
         for(float[] v : velocities)
@@ -53,27 +47,29 @@ public class ParticleSystem
             particles.add(new Particle(1.0f, 1.0f, position, new Vector<>(List.of(v[0], v[1])), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
         }
     }
-    private void addFieldPoint()
+    public void addFieldPoint(Vector<Float> position, float fieldStrength, String type)
     {
-        fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 0.0f)), 1.0f, "A"));
-        fieldPoints.add(new FieldPoint(new Vector<>(List.of(5.0f, 0.0f)), 1.0f, "A"));
-        fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 5.0f)), 1.0f, "B"));
+        fieldPoints.add(new FieldPoint(position, fieldStrength, type));
+        // fieldPoints.add(new FieldPoint(new Vector<>(List.of(5.0f, 0.0f)), 1.0f, "A"));
+        // fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 5.0f)), 1.0f, "B"));
     }
-    private void display()
+    //function purely for testing purposes
+    public void display()
     {
         for(int i=0;i<particles.size();i++)
         {
             System.out.println(particles.get(i).toString());
         }
     }
-    private void update()
+
+    public void updateParticlesPosition()
     {
         for(int i=0;i<particles.size();i++)
         {
             particles.get(i).update();
         }
-        // System.out.println("updating");
     }
+    //calculates force acting on each particle
     public native void setForces();
 }
 
