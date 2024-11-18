@@ -1,5 +1,6 @@
 package Pack.Particle;
 
+import java.util.Arrays;
 import java.util.Vector;
 
 /**
@@ -64,25 +65,26 @@ public class Particle {
         return velocity;
     }
 
-    public void setVelocity(Vector<Float> velocity) {
-        this.velocity = velocity;
+    public void setVelocity(float[] velocity) {
+        this.velocity = new Vector<>(Arrays.asList(velocity[0], velocity[1]));
     }
 
     public Vector<Float> getPosition() {
         return position;
     }
 
-    public void setPosition(Vector<Float> position) {
-        this.position = position;
+    public void setPosition(float[] position) {
+        this.position = new Vector<>(Arrays.asList(position[0], position[1]));
     }
 
     public Vector<Float> getForce() {
         return force;
     }
 
-    public void setForce(Vector<Float> force) {
-        this.force = force;
+    public void setForce(float[] forceArray) {
+        this.force = new Vector<>(Arrays.asList(forceArray[0], forceArray[1]));
     }
+
 
     public float getSize() {
         return size;
