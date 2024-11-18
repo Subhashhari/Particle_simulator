@@ -46,7 +46,7 @@ public class ParticleSystem
         particles.add(new Particle(3.0f, 1.0f, new Vector<>(List.of(5.5f, 0.5f)), new Vector<>(List.of(2.0f, 1.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
 
     }    
-    public void addParticles(Vector<Float> postion, float[][] velocities)
+    public void addParticles(Vector<Float> position, float[][] velocities)
     {
         for(float[] v : velocities)
         {

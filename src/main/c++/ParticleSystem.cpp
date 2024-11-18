@@ -182,7 +182,7 @@ double randomDouble(double a, double b) {
 
 extern "C" {
 
-<<<<<<< HEAD
+
 vector<float> getCppVectorFromJavaVector(JNIEnv* env, jobject javaVector) {
     std::vector<float> cppVector;
 
@@ -246,7 +246,6 @@ jobject getJavaVectorFromCppVector(JNIEnv* env, const std::vector<float>& cppVec
 }
 
 
-=======
 // Helper function to get a float value from Java Vector<Float>
 float getVectorElement(JNIEnv* env, jobject vectorObj, int index) {
     jclass vectorClass = env->GetObjectClass(vectorObj);
@@ -268,7 +267,6 @@ void setVectorElement(JNIEnv* env, jobject vectorObj, int index, float value) {
     env->CallObjectMethod(vectorObj, setMethod, index, floatObj);
     env->DeleteLocalRef(floatObj);
 }
->>>>>>> 8cf94df3b18fce3f1576304ceaa8c0de71b5271a
 
 // JNI implementation for update method
 JNIEXPORT void JNICALL Java_Pack_Particle_Particle_update(JNIEnv* env, jobject obj) {
@@ -409,7 +407,7 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
     env->DeleteLocalRef(fieldPoints);
 }
 
-<<<<<<< HEAD
+
 JNIEXPORT void JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* env, jobject obj) {
     jclass emitterClass = env->GetObjectClass(obj);
     jmethodID getAngleMethod = env->GetMethodID(emitterClass, "getAngle", "()F");
@@ -472,9 +470,6 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* env, jobj
 
     // Return the 2D Java array
     return jVelocitiesArray;
-
-=======
->>>>>>> 8cf94df3b18fce3f1576304ceaa8c0de71b5271a
 }
 
 JNIEXPORT void JNICALL Java_Pack_Particle_Particle_update(JNIEnv* env, jobject obj) {

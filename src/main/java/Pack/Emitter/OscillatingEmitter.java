@@ -1,3 +1,5 @@
+package Pack.Emitter;
+import java.util.*;
 class OscillatingEmitter extends Emitter
 {
     private float amplitude;
