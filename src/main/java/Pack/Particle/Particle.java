@@ -128,6 +128,7 @@ public class Particle {
                 ", charge=" + charge +
                 ", velocity=" + velocity +
                 ", position=" + position +
+                ", angle=" + Math.toDegrees(Math.atan(velocity.get(1)/velocity.get(0))) +
                 ", force=" + force +
                 ", size=" + size +
                 ", lifespan=" + lifespan +

@@ -1,10 +1,9 @@
-package Pack.Emitter;
 import java.util.*;
 class OscillatingEmitter extends Emitter
 {
     private float amplitude;
     private float frequency;
-    private Vector<float> position;
+    private Vector<Float> position;
     private float theta;
 
     public OscillatingEmitter(Vector<Float> position, int emissionRate, float spread, float angle, float amplitude, float frequency, float mv)

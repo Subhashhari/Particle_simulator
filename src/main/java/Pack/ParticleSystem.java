@@ -44,7 +44,7 @@ public class ParticleSystem
     {
         for(float[] v : velocities)
         {
-            particles.add(new Particle(1.0f, 1.0f, position, new Vector<>(List.of(v[0], v[1])), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
+            particles.add(new Particle(1.0f, 1.0f, new Vector<>(List.of(v[0], v[1])), position, new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
         }
     }
     public void addFieldPoint(Vector<Float> position, float fieldStrength, String type)
