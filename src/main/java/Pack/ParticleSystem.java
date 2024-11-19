@@ -1,7 +1,9 @@
 package Pack;
+
 import java.util.List;
 import java.util.Vector;
 
+import Pack.Emitter.Emitter;
 import Pack.FieldPoint.FieldPoint;
 import Pack.Particle.Particle;
 
@@ -18,10 +20,14 @@ public class ParticleSystem
 
     private Vector<Particle> particles;
     private Vector<FieldPoint> fieldPoints;
+    private Vector<Emitter> emitters;
+
+
     public ParticleSystem() //initiate particle system
     {
         particles = new Vector<>();
         fieldPoints = new Vector<>();
+        emitters = new Vector<>();
     }
     public Vector<Particle> getParticles()
     {
@@ -31,8 +37,12 @@ public class ParticleSystem
     {
         return fieldPoints;
     }
+    public Vector<Emitter> getEmitters()
+    {
+        return emitters;
+    }
     //function to add particle
-    private void addParticle(float mass, float charge, Vector<Float> velocity, Vector<Float> position, Vector<Float> force, float size, int lifespan, String color, boolean hasTrai)
+    public void addParticle(float mass, float charge, Vector<Float> velocity, Vector<Float> position, Vector<Float> force, float size, int lifespan, String color, boolean hasTrai)
     {
         particles.add(new Particle(mass,charge,velocity,position,force,size,lifespan,color,hasTrai));
         // particles.add(new Particle(2.0f, 1.0f, new Vector<>(List.of(1.5f, 0.5f)), new Vector<>(List.of(1.0f, 5.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));

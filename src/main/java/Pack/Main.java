@@ -4,6 +4,8 @@ public class Main
 {
     public static void main(String[] args) {
         System.out.println("Hello World!");
-        ParticleSystem ps = new ParticleSystem();   
+        ParticleSystem ps = new ParticleSystem();  
+        // CanvasTest canvasTest = new CanvasTest();
+        // canvasTest.launch(args);
     }    
 }
