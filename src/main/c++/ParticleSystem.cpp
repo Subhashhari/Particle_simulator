@@ -439,7 +439,7 @@ JNIEXPORT jobjectArray JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* e
 
     vector<vector<float>> velocities;
 
-    for (int i=0 ; i<100; i++) 
+    for (int i=0 ; i<1; i++) 
     {
         float angU = angle + spread/2;
         float angL = angle - spread/2;
@@ -485,7 +485,7 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
     cout << "Amplitude: " << A << endl;
 
 
-    jmethodID getFrequencyMethod = env->GetMethodID(emitterClass, "getFrequecy", "()F");
+    jmethodID getFrequencyMethod = env->GetMethodID(emitterClass, "getFrequency", "()F");
     if (getFrequencyMethod == nullptr) {
         cerr << "Could not find getMass() method" << endl;
         return;
@@ -525,15 +525,16 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
 
     // Convert the Java Vector<Float> to a C++ std::vector<float>
     vector<float> cppPositionVector = getCppVectorFromJavaVector(env, positionVector);
+    cout<<"Position: " << cppPositionVector[1];
 
 
-    float vy = A*2*PI*f*sin(theta);
+    float vy = A*2*PI*f*cos(theta);
     cppPositionVector[1] += vy;
 
     float newTheta = theta + 2*PI*f;
 
-    jmethodID setThetaMethod = env->GetMethodID(emitterClass, "setTheta", "()F");
-    if (getThetaMethod == nullptr) {
+    jmethodID setThetaMethod = env->GetMethodID(emitterClass, "setTheta", "(F)V");
+    if (setThetaMethod == nullptr) {
         cerr << "Could not find getMass() method" << endl;
         return;
     }
@@ -545,17 +546,14 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
     jobject javaPositionVector = getJavaVectorFromCppVector(env, cppPositionVector);
 
     // Call setPosition(Vector<Float>) on the Emitter object
-    jclass oscillatingemitterClass = env->GetObjectClass(obj);
-    jmethodID setPositionMethod = env->GetMethodID(oscillatingemitterClass, "setPosition", "(Ljava/util/Vector;)V");
+   // jclass oscillatingemitterClass = env->GetObjectClass(obj);
+    jmethodID setPositionMethod = env->GetMethodID(emitterClass, "setPosition", "(Ljava/util/Vector;)V");
 
     if (setPositionMethod != nullptr) {
         env->CallVoidMethod(obj, setPositionMethod, javaPositionVector);
     } else {
         std::cerr << "Could not find setPosition() method" << std::endl;
     }
-
-
-
 
     
 }

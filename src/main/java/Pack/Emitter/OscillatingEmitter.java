@@ -1,21 +1,23 @@
+package Pack.Emitter;
 import java.util.*;
-class OscillatingEmitter extends Emitter
+import Pack.Emitter.Emitter;
+import Pack.ParticleSystem;
+public class OscillatingEmitter extends Emitter
 {
     private float amplitude;
     private float frequency;
     private Vector<Float> position;
     private float theta;
 
-    public OscillatingEmitter(Vector<Float> position, int emissionRate, float spread, float angle, float amplitude, float frequency, float mv)
+    public OscillatingEmitter(Vector<Float> position, float speed, float spread, float angle, float amplitude, float frequency, ParticleSystem ps)
     {
-        super(position, emissionRate, spread, angle);
+        super(position, speed, spread, angle, ps);
         this.amplitude = amplitude;
         this.frequency = frequency;
-        this.maxVelocity = mv;
         this.theta = 0;
     }
 
-    public void getAmplitude()
+    public float getAmplitude()
     {
         return amplitude;
     }
@@ -25,7 +27,7 @@ class OscillatingEmitter extends Emitter
         this.amplitude = amplitude;
     }
 
-    public void getFrequency()
+    public float getFrequency()
     {
         return frequency;
     }
@@ -36,12 +38,12 @@ class OscillatingEmitter extends Emitter
     }
 
 
-    public void getTheta()
+    public float getTheta()
     {
-        retturn this.theta;
+        return this.theta;
     }
 
-    public vois setTheta(float theta)
+    public void setTheta(float theta)
     {
         this.theta = theta;
     }

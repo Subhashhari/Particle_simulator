@@ -74,5 +74,7 @@ public class Emitter
         float[][] velocities = getVelocities();
         system.addParticles(position, velocities);
     }
+
+    public native void updateEmitter();
     
 }
