@@ -16,6 +16,7 @@ public class Particle {
     private Vector<Float> force;
     private float size;
     private int lifespan;
+    private float lifetime;
 
     // JavaFX-specific attributes
     private String color; // Color is managed on the Java side
@@ -117,10 +118,18 @@ public class Particle {
     public void setTrail(boolean hasTrail) {
         this.hasTrail = hasTrail;
     }
+    public float getLifetime() {
+    return lifetime;
+    }
+
+    public void setLifetime(float lifetime) {
+    this.lifetime = lifetime;
+    }
     
     //public native void calcForce(); // To be implemented in C++ using JNI
     public native void update(); // To be implemented in C++ using JNI
 
+  /*
     @Override
     public String toString() {
         return "Particle{" +
@@ -136,4 +145,41 @@ public class Particle {
                 ", hasTrail=" + hasTrail +
                 '}';
     }
+    */
+    @Override
+public String toString() {
+    return String.format("%f,%f,%s,%s,%s,%f,%d,%s,%b", 
+        mass, charge, velocity, position, force, size, lifespan, color, hasTrail);
+}
+
+public static Particle parse(String line) {
+    try {
+        String[] parts = line.split(",");
+        float mass = Float.parseFloat(parts[0]);
+        float charge = Float.parseFloat(parts[1]);
+        Vector<Float> velocity = parseVector(parts[2]);
+        Vector<Float> position = parseVector(parts[3]);
+        Vector<Float> force = parseVector(parts[4]);
+        float size = Float.parseFloat(parts[5]);
+        int lifespan = Integer.parseInt(parts[6]);
+        String color = parts[7];
+        boolean hasTrail = Boolean.parseBoolean(parts[8]);
+        return new Particle(mass, charge, velocity, position, force, size, lifespan, color, hasTrail);
+    } catch (Exception e) {
+        System.err.println("Error parsing Particle: " + line);
+        return null;
+    }
+}
+
+private static Vector<Float> parseVector(String vectorString) {
+    vectorString = vectorString.replaceAll("[\\[\\]]", ""); // Remove square brackets
+    String[] values = vectorString.split(",\\s*");
+    Vector<Float> vector = new Vector<>();
+    for (String value : values) {
+        vector.add(Float.parseFloat(value));
+    }
+    return vector;
+}
+
+
 }

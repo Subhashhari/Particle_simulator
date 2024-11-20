@@ -65,6 +65,11 @@ public class Emitter
     public boolean isEmitting() {
         return isEmitting;
     }
+    
+    public void setIsEmitting(boolean isEmitting) {
+        this.isEmitting = isEmitting;
+    }
+
 
     public native float[][] getVelocities();
 
@@ -74,6 +79,44 @@ public class Emitter
         float[][] velocities = getVelocities();
         system.addParticles(position, velocities);
     }
+    
+    @Override
+    public String toString() {
+	    return "Emitter{" +
+		    "position=" + position.toString() +
+		    ", emissionRate=" + emissionRate +
+		    ", spread=" + spread +
+		    ", angle=" + angle +
+		    ", speed=" + speed +
+		    ", isEmitting=" + isEmitting +
+		    '}';
+   }
+   public static Emitter parse(String line, ParticleSystem ps) {
+    // Example input: Emitter{position=[2.5, 3.5], emissionRate=50, spread=1.5, angle=45.0, speed=10.0, isEmitting=true}
+	    try {
+		line = line.replace("Emitter{", "").replace("}", "");
+		String[] parts = line.split(", ");
+		Vector<Float> position = new Vector<>();
+		String[] posValues = parts[0].split("=")[1].replace("[", "").replace("]", "").split(", ");
+		for (String pos : posValues) {
+		    position.add(Float.parseFloat(pos));
+		}
+		int emissionRate = Integer.parseInt(parts[1].split("=")[1]);
+		float spread = Float.parseFloat(parts[2].split("=")[1]);
+		float angle = Float.parseFloat(parts[3].split("=")[1]);
+		float speed = Float.parseFloat(parts[4].split("=")[1]);
+		boolean isEmitting = Boolean.parseBoolean(parts[5].split("=")[1]);
+
+		Emitter emitter = new Emitter(position, speed, spread, angle, ps);
+		emitter.setEmissionRate(emissionRate);
+		emitter.isEmitting = isEmitting; // Direct field access since it's private
+		return emitter;
+	    } catch (Exception e) {
+		e.printStackTrace();
+		return null;
+	    }
+	}
+
 
     public native void updateEmitter();
     

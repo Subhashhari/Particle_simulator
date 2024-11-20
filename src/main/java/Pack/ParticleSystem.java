@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import Pack.FieldPoint.FieldPoint;
 import Pack.Particle.Particle;
+import Pack.Emitter.Emitter;
+import Pack.Emitter.OscillatingEmitter;
 
 public class ParticleSystem
 {
@@ -18,10 +20,22 @@ public class ParticleSystem
 
     private Vector<Particle> particles;
     private Vector<FieldPoint> fieldPoints;
-    public ParticleSystem() //initiate particle system
+    private Emitter oe;
+    public ParticleSystem()
     {
         particles = new Vector<>();
         fieldPoints = new Vector<>();
+        oe = new OscillatingEmitter(new Vector<>(List.of(2.5f, 2.5f)), 1f, (float)Math.PI/4, 0.0f, 0.5f, 0.01f, this);
+/*         addParticle();
+        addFieldPoint();
+        setForces();
+        display();*/
+        for(int i = 0; i < 100 ; i++) 
+        {
+            oe.emitParticles();
+            display();
+            oe.updateEmitter();
+        }
     }
     public Vector<Particle> getParticles()
     {
@@ -31,15 +45,13 @@ public class ParticleSystem
     {
         return fieldPoints;
     }
-    //function to add particle
-    private void addParticle(float mass, float charge, Vector<Float> velocity, Vector<Float> position, Vector<Float> force, float size, int lifespan, String color, boolean hasTrai)
+    public void addParticle()
     {
-        particles.add(new Particle(mass,charge,velocity,position,force,size,lifespan,color,hasTrai));
-        // particles.add(new Particle(2.0f, 1.0f, new Vector<>(List.of(1.5f, 0.5f)), new Vector<>(List.of(1.0f, 5.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
-        // particles.add(new Particle(3.0f, 1.0f, new Vector<>(List.of(5.5f, 0.5f)), new Vector<>(List.of(2.0f, 1.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
+        particles.add(new Particle(1.0f, 1.0f, new Vector<>(List.of(0.5f, 0.5f)), new Vector<>(List.of(1.0f, 1.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
+        particles.add(new Particle(2.0f, 1.0f, new Vector<>(List.of(1.5f, 0.5f)), new Vector<>(List.of(1.0f, 5.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
+        particles.add(new Particle(3.0f, 1.0f, new Vector<>(List.of(5.5f, 0.5f)), new Vector<>(List.of(2.0f, 1.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
 
     }    
-    //adds particle by taking vector of position and vector of velocities
     public void addParticles(Vector<Float> position, float[][] velocities)
     {
         for(float[] v : velocities)
@@ -47,13 +59,12 @@ public class ParticleSystem
             particles.add(new Particle(1.0f, 1.0f, new Vector<>(List.of(v[0], v[1])), position, new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
         }
     }
-    public void addFieldPoint(Vector<Float> position, float fieldStrength, String type)
+    public void addFieldPoint()
     {
-        fieldPoints.add(new FieldPoint(position, fieldStrength, type));
-        // fieldPoints.add(new FieldPoint(new Vector<>(List.of(5.0f, 0.0f)), 1.0f, "A"));
-        // fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 5.0f)), 1.0f, "B"));
+        fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 0.0f)), 1.0f, "A"));
+        fieldPoints.add(new FieldPoint(new Vector<>(List.of(5.0f, 0.0f)), 1.0f, "A"));
+        fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 5.0f)), 1.0f, "B"));
     }
-    //function purely for testing purposes
     public void display()
     {
         for(int i=0;i<particles.size();i++)
@@ -62,14 +73,15 @@ public class ParticleSystem
         }
     }
 
-    public void updateParticlesPosition()
-    {
-        for(int i=0;i<particles.size();i++)
-        {
-            particles.get(i).update();
-        }
+    public Emitter getOscillatingEmitter(){
+	    return oe;
     }
-    //calculates force acting on each particle
+
+    public void setOscillatingEmitter(Emitter emitter){
+	    this.oe=emitter;
+    }
+    
+
+
     public native void setForces();
 }
-
