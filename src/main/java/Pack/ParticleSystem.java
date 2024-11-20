@@ -61,6 +61,16 @@ public class ParticleSystem
         // fieldPoints.add(new FieldPoint(new Vector<>(List.of(5.0f, 0.0f)), 1.0f, "A"));
         // fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 5.0f)), 1.0f, "B"));
     }
+    public void removeParticlesOutOfScreen(int width, int height)
+    {
+        for(int i=particles.size()-1;i>=0;i--)
+        {
+            if(particles.get(i).getPosition().get(0)<0 || particles.get(i).getPosition().get(0)>width || particles.get(i).getPosition().get(1)<0 || particles.get(i).getPosition().get(1)>height)
+            {
+                particles.remove(i);
+            }
+        }
+    }
     public void display()
     {
         for(int i=0;i<particles.size();i++)
