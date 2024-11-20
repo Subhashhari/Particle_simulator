@@ -22,23 +22,15 @@ public class ParticleSystem
     private Vector<Particle> particles;
     private Vector<FieldPoint> fieldPoints;
     private Vector<Emitter> emitters;
+    private boolean gravityEnabled;
     private Emitter oe;
     public ParticleSystem()
     {
         particles = new Vector<>();
         fieldPoints = new Vector<>();
         emitters= new Vector<>();
-        oe = new OscillatingEmitter(new Vector<>(List.of(2.5f, 2.5f)), 1f, (float)Math.PI/4, 0.0f, 0.5f, 0.01f, this);
-/*         addParticle();
-        addFieldPoint();
-        setForces();
-        display();*/
-        // for(int i = 0; i < 100 ; i++) 
-        // {
-        //     oe.emitParticles();
-        //     display();
-        //     oe.updateEmitter();
-        // }
+        oe = new OscillatingEmitter(new Vector<>(List.of(2.5f, 2.5f)), 1f, (float)Math.PI/4, 0.0f, 1f, 0.5f, 0.01f, this);
+        this.gravityEnabled = false;
 
     }
     public Vector<Particle> getParticles()
@@ -56,11 +48,11 @@ public class ParticleSystem
         // particles.add(new Particle(3.0f, 1.0f, new Vector<>(List.of(5.5f, 0.5f)), new Vector<>(List.of(2.0f, 1.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
 
     }   
-    public void addParticles(Vector<Float> position, float[][] velocities)
+    public void addParticles(float particlesMass, Vector<Float> position, float[][] velocities)
     {
         for(float[] v : velocities)
         {
-            particles.add(new Particle(1.0f, 1.0f, new Vector<>(List.of(v[0], v[1])), position, new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
+            particles.add(new Particle(particlesMass, 1.0f, new Vector<>(List.of(v[0], v[1])), position, new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
         }
     }
     public void addFieldPoint(Vector<Float> position, float fieldStrength, String type)
@@ -91,6 +83,16 @@ public class ParticleSystem
 
     public void setOscillatingEmitter(Emitter emitter){
 	    this.oe=emitter;
+    }
+
+    public boolean isGravityEnabled()
+    {
+        return this.gravityEnabled;
+    }
+
+    public void setGravityEnabled(boolean gravityEnabled)
+    {
+        this.gravityEnabled = gravityEnabled;
     }
     
 

@@ -9,9 +9,9 @@ public class OscillatingEmitter extends Emitter
     private Vector<Float> position;
     private float theta;
 
-    public OscillatingEmitter(Vector<Float> position, float speed, float spread, float angle, float amplitude, float frequency, ParticleSystem ps)
+    public OscillatingEmitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, float amplitude, float frequency, ParticleSystem ps)
     {
-        super(position, speed, spread, angle, ps);
+        super(position, speed, spread, angle, particlesMass, ps);
         this.amplitude = amplitude;
         this.frequency = frequency;
         this.theta = 0;

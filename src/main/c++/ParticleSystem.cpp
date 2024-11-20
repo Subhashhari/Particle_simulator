@@ -315,8 +315,8 @@ JNIEXPORT void JNICALL Java_Pack_Particle_Particle_update(JNIEnv* env, jobject o
     env->CallVoidMethod(obj, setPositionMethod, jPositionArray);
     env->DeleteLocalRef(jPositionArray);
 
-    velocityX += forceX * dt;
-    velocityY += forceY * dt;
+    velocityX += (forceX / mass) * dt;
+    velocityY += (forceY / mass) * dt;
 
     float finalVel[2] = { velocityX, velocityY };
     jfloatArray jVelocityArray = env->NewFloatArray(2);
@@ -339,9 +339,11 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
     // Retrieve getParticles and getFieldPoints methods
     jmethodID getParticlesMethod = env->GetMethodID(particleSystemClass, "getParticles", "()Ljava/util/Vector;");
     jmethodID getFieldPointsMethod = env->GetMethodID(particleSystemClass, "getFieldPoints", "()Ljava/util/Vector;");
+    jmethodID isGravityEnabledMethod = env->GetMethodID(particleSystemClass, "isGravityEnabled", "()Z;");
 
     jobject particles = env->CallObjectMethod(obj, getParticlesMethod);
     jobject fieldPoints = env->CallObjectMethod(obj, getFieldPointsMethod);
+    jboolean isGravityEnabled = env->CallBooleanMethod(obj, isGravityEnabledMethod);
 
     jclass vectorClass = env->FindClass("java/util/Vector");
     jmethodID vectorSizeMethod = env->GetMethodID(vectorClass, "size", "()I");
@@ -356,16 +358,20 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
 
         jmethodID getPositionMethod = env->GetMethodID(particleClass, "getPosition", "()Ljava/util/Vector;");
         jmethodID getChargeMethod = env->GetMethodID(particleClass, "getCharge", "()F");
+        jmethodID getMassMethod = env->GetMethodID(particleClass, "getMass", "()F");
         jmethodID setForceMethod = env->GetMethodID(particleClass, "setForce", "([F)V");
 
         jobject particlePosition = env->CallObjectMethod(particle, getPositionMethod);
         float charge = env->CallFloatMethod(particle, getChargeMethod);
+        float mass = env->CallFloatMethod(particle, getMassMethod);
 
         float px = getVectorElement(env, particlePosition, 0);
         float py = getVectorElement(env, particlePosition, 1);
 
         float forceX = 0.0f;
         float forceY = 0.0f;
+        if(isGravityEnabled == JNI_TRUE)
+            forceY = mass * 9.8;
 
         for (int j = 0; j < numFieldPoints; j++) {
             jobject fieldPoint = env->CallObjectMethod(fieldPoints, vectorGetMethod, j);

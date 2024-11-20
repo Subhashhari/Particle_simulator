@@ -9,16 +9,18 @@ public class Emitter
     private float spread;
     private float angle;
     private float speed;
+    private float particlesMass;
     private boolean isEmitting;
     private ParticleSystem system;
 
-    public Emitter(Vector<Float> position, float speed, float spread, float angle, ParticleSystem ps)
+    public Emitter(Vector<Float> position, float speed, float spread, float angle, float paticlesMass, ParticleSystem ps)
     {
         this.position = position;
         this.speed = speed;
         this.spread = spread;
         this.angle = angle;
         this.isEmitting = false;
+        this.particlesMass = particlesMass;
         this.system = ps;
     }
     
@@ -77,7 +79,7 @@ public class Emitter
     {
         this.isEmitting = true;
         float[][] velocities = getVelocities();
-        system.addParticles(position, velocities);
+        system.addParticles(particlesMass, position, velocities);
     }
     
     @Override
