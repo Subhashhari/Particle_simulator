@@ -1,0 +1,4 @@
+Particles
+FieldPoints
+Emitter
+OscillatingEmitter{position=[2.5, 2.5], emissionRate=0, spread=0.7853982, angle=0.0, speed=1.0, isEmitting=false, amplitude=0.5, frequency=0.01, theta=0.0}
