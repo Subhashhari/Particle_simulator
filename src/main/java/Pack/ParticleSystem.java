@@ -63,7 +63,7 @@ public class ParticleSystem
     }
     public void removeParticlesOutOfScreen(int width, int height)
     {
-        for(int i=particles.size()-1;i>=0;i--)
+        for(int i=0 ; i<particles.size() ; i++)
         {
             if(particles.get(i).getPosition().get(0)<0 || particles.get(i).getPosition().get(0)>width || particles.get(i).getPosition().get(1)<0 || particles.get(i).getPosition().get(1)>height)
             {
