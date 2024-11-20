@@ -4,10 +4,9 @@ import java.util.List;
 import java.util.Vector;
 
 import Pack.Emitter.Emitter;
+import Pack.Emitter.OscillatingEmitter;
 import Pack.FieldPoint.FieldPoint;
 import Pack.Particle.Particle;
-import Pack.Emitter.Emitter;
-import Pack.Emitter.OscillatingEmitter;
 
 public class ParticleSystem
 {
@@ -64,11 +63,11 @@ public class ParticleSystem
             particles.add(new Particle(1.0f, 1.0f, new Vector<>(List.of(v[0], v[1])), position, new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
         }
     }
-    public void addFieldPoint()
+    public void addFieldPoint(Vector<Float> position, float fieldStrength, String type)
     {
-        fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 0.0f)), 1.0f, "A"));
-        fieldPoints.add(new FieldPoint(new Vector<>(List.of(5.0f, 0.0f)), 1.0f, "A"));
-        fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 5.0f)), 1.0f, "B"));
+        fieldPoints.add(new FieldPoint(position, fieldStrength, type));
+        // fieldPoints.add(new FieldPoint(new Vector<>(List.of(5.0f, 0.0f)), 1.0f, "A"));
+        // fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 5.0f)), 1.0f, "B"));
     }
     public void display()
     {
