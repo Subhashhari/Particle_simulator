@@ -445,7 +445,7 @@ JNIEXPORT jobjectArray JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* e
 
     vector<vector<float>> velocities;
 
-    for (int i=0 ; i<1; i++) 
+    for (int i=0 ; i<20; i++) 
     {
         float angU = angle + spread/2;
         float angL = angle - spread/2;

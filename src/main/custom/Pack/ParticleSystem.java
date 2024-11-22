@@ -7,6 +7,7 @@ import Pack.Emitter.Emitter;
 import Pack.Emitter.OscillatingEmitter;
 import Pack.FieldPoint.FieldPoint;
 import Pack.Particle.Particle;
+import javafx.scene.paint.Color;
 
 public class ParticleSystem
 {
@@ -23,13 +24,11 @@ public class ParticleSystem
     private Vector<FieldPoint> fieldPoints;
     private Vector<Emitter> emitters;
     private boolean gravityEnabled;
-    private Emitter oe;
     public ParticleSystem()
     {
         particles = new Vector<>();
         fieldPoints = new Vector<>();
         emitters= new Vector<>();
-        //oe = new OscillatingEmitter(new Vector<>(List.of(2.5f, 2.5f)), 1f, (float)Math.PI/4, 0.0f, 1f, 0.5f, 0.01f, this);
         this.gravityEnabled = false;
 
     }
@@ -40,6 +39,10 @@ public class ParticleSystem
     public Vector<FieldPoint>getFieldPoints()
     {
         return fieldPoints;
+    }
+    public Vector<Emitter> getEmitters()
+    {
+        return emitters;
     }
     public void addParticle(float mass, float charge, Vector<Float> velocity, Vector<Float> position, Vector<Float> force, float size, int lifespan, String color, boolean hasTrai)
     {
@@ -89,19 +92,25 @@ public class ParticleSystem
 
     public void updateParticlesPosition()
     {
+        for(int i=0; i<emitters.size(); i++)
+        {
+            emitters.get(i).emitParticles();
+            if(emitters.get(i) instanceof OscillatingEmitter)
+                emitters.get(i).updateEmitter();
+        }
         for(int i=0;i<particles.size();i++)
         {
             particles.get(i).update();
         }
     }
 
-    public Emitter getOscillatingEmitter(){
-	    return oe;
-    }
+    // public Emitter getOscillatingEmitter(){
+	//     return oe;
+    // }
 
-    public void setOscillatingEmitter(Emitter emitter){
-	    this.oe=emitter;
-    }
+    // public void setOscillatingEmitter(Emitter emitter){
+	//     this.oe=emitter;
+    // }
 
     public boolean isGravityEnabled()
     {
@@ -111,9 +120,22 @@ public class ParticleSystem
     public void setGravityEnabled(boolean gravityEnabled)
     {
         this.gravityEnabled = gravityEnabled;
-    }
-    
-
+    }    
 
     public native void setForces();
+
+    public void updateAll()
+    {
+        for(int i=0; i<emitters.size(); i++)
+        {
+            emitters.get(i).emitParticles();
+            if(emitters.get(i) instanceof OscillatingEmitter)
+                emitters.get(i).updateEmitter();
+        }
+//        setForces();
+        for(int i=0;i<particles.size();i++)
+        {
+            particles.get(i).update();
+        }
+    }
 }
