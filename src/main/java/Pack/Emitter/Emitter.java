@@ -5,7 +5,6 @@ import Pack.ParticleSystem;
 public class Emitter
 {
     private Vector<Float> position;
-    private int emissionRate;
     private float spread;
     private float angle;
     private float speed;
@@ -13,7 +12,7 @@ public class Emitter
     private boolean isEmitting;
     private ParticleSystem system;
 
-    public Emitter(Vector<Float> position, float speed, float spread, float angle, float paticlesMass, ParticleSystem ps)
+    public Emitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, ParticleSystem ps)
     {
         this.position = position;
         this.speed = speed;
@@ -30,14 +29,6 @@ public class Emitter
     
     public void setPosition(Vector<Float> position) {
         this.position = position;
-    }
-    
-    public int getEmissionRate() {
-        return emissionRate;
-    }
-    
-    public void setEmissionRate(int emissionRate) {
-        this.emissionRate = emissionRate;
     }
     
     public float getSpread() {

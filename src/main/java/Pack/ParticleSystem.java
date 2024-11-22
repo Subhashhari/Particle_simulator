@@ -29,7 +29,7 @@ public class ParticleSystem
         particles = new Vector<>();
         fieldPoints = new Vector<>();
         emitters= new Vector<>();
-        oe = new OscillatingEmitter(new Vector<>(List.of(2.5f, 2.5f)), 1f, (float)Math.PI/4, 0.0f, 1f, 0.5f, 0.01f, this);
+        //oe = new OscillatingEmitter(new Vector<>(List.of(2.5f, 2.5f)), 1f, (float)Math.PI/4, 0.0f, 1f, 0.5f, 0.01f, this);
         this.gravityEnabled = false;
 
     }
@@ -60,6 +60,14 @@ public class ParticleSystem
         fieldPoints.add(new FieldPoint(position, fieldStrength, type));
         // fieldPoints.add(new FieldPoint(new Vector<>(List.of(5.0f, 0.0f)), 1.0f, "A"));
         // fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 5.0f)), 1.0f, "B"));
+    }
+    public void addEmitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass)
+    {
+        emitters.add(new Emitter(position, speed, spread, angle, particlesMass, this));
+    }
+    public void addOscillatingEmitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, float amplitude, float frequency)
+    {
+        emitters.add(new OscillatingEmitter(position, speed, spread, angle, particlesMass, amplitude, frequency, this));
     }
     public void removeParticlesOutOfScreen(int width, int height)
     {
