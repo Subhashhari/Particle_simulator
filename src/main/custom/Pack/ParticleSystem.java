@@ -24,13 +24,15 @@ public class ParticleSystem
     private Vector<FieldPoint> fieldPoints;
     private Vector<Emitter> emitters;
     private boolean gravityEnabled;
+    private double friction;
+    private int maxParticles;
+
     public ParticleSystem()
     {
         particles = new Vector<>();
         fieldPoints = new Vector<>();
         emitters= new Vector<>();
         this.gravityEnabled = false;
-
     }
     public Vector<Particle> getParticles()
     {

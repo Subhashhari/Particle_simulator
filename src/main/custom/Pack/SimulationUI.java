@@ -95,9 +95,9 @@ public class SimulationUI extends Application {
         Button stepButton = new Button("Step");
 
         // Sliders
-        velocitySlider = createSlider(1, 50, 10, "Particle Velocity");
-        spreadSlider = createSlider(1, 90, 30, "Emitter Spread Angle");
-        angleSlider = createSlider(0, 360, 0, "Emission Angle");
+        velocitySlider = createSlider(1, 10, 0.5, "Particle Velocity");
+        spreadSlider = createSlider(1, 2*3.16, 0.05, "Emitter Spread Angle");
+        angleSlider = createSlider(0, 2*3.16, 0.05, "Emission Angle");
 
         addEmitterButton.setOnAction(e -> {
             // Add an emitter at a random position
