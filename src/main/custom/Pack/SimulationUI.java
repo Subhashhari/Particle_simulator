@@ -88,6 +88,13 @@ public class SimulationUI extends Application {
         particleSystem.removeParticlesOutOfScreen(WIDTH, HEIGHT); // Remove particles that are out of screen
     }
 
+    private void toggleGravity()
+    {
+        // Toggle gravity on/off
+        boolean gravityEnabled = particleSystem.isGravityEnabled();
+        particleSystem.setGravityEnabled(!gravityEnabled);
+    }
+
     private void render() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, WIDTH, HEIGHT);

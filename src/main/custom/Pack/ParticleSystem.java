@@ -90,19 +90,19 @@ public class ParticleSystem
         }
     }
 
-    public void updateParticlesPosition()
-    {
-        for(int i=0; i<emitters.size(); i++)
-        {
-            emitters.get(i).emitParticles();
-            if(emitters.get(i) instanceof OscillatingEmitter)
-                emitters.get(i).updateEmitter();
-        }
-        for(int i=0;i<particles.size();i++)
-        {
-            particles.get(i).update();
-        }
-    }
+    // public void updateParticlesPosition()
+    // {
+    //     for(int i=0; i<emitters.size(); i++)
+    //     {
+    //         emitters.get(i).emitParticles();
+    //         if(emitters.get(i) instanceof OscillatingEmitter)
+    //             emitters.get(i).updateEmitter();
+    //     }
+    //     for(int i=0;i<particles.size();i++)
+    //     {
+    //         particles.get(i).update();
+    //     }
+    // }
 
     // public Emitter getOscillatingEmitter(){
 	//     return oe;
