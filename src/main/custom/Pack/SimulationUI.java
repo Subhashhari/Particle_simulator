@@ -62,7 +62,7 @@ public class SimulationUI extends Application {
 
         addEmitterButton.setOnAction(e -> {
             // Add an emitter at a random position
-            particleSystem.addEmitter(randomPosition(), 3.0f, 0.7853f, 0.0f, 1f);
+            particleSystem.addEmitter(randomPosition(), 1.0f, 0.7853f, 0.0f, 1f);
         });
 
         addFieldButton.setOnAction(e -> {
@@ -84,6 +84,7 @@ public class SimulationUI extends Application {
 
     private void update() {
         // Call backend to update particle positions
+        particleSystem.setForces();
         particleSystem.updateAll();
         particleSystem.removeParticlesOutOfScreen(WIDTH, HEIGHT); // Remove particles that are out of screen
     }

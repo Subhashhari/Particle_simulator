@@ -167,7 +167,7 @@
 
 using namespace std;
 
-float K = 100000000.0f;
+float K = 500.0f;
 
 const double PI = 3.14159265358979323846;
 
@@ -339,11 +339,11 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
     // Retrieve getParticles and getFieldPoints methods
     jmethodID getParticlesMethod = env->GetMethodID(particleSystemClass, "getParticles", "()Ljava/util/Vector;");
     jmethodID getFieldPointsMethod = env->GetMethodID(particleSystemClass, "getFieldPoints", "()Ljava/util/Vector;");
-    jmethodID isGravityEnabledMethod = env->GetMethodID(particleSystemClass, "isGravityEnabled", "()Z;");
+    //jmethodID isGravityEnabledMethod = env->GetMethodID(particleSystemClass, "isGravityEnabled", "()Z;");
 
     jobject particles = env->CallObjectMethod(obj, getParticlesMethod);
     jobject fieldPoints = env->CallObjectMethod(obj, getFieldPointsMethod);
-    jboolean isGravityEnabled = env->CallBooleanMethod(obj, isGravityEnabledMethod);
+    //jboolean isGravityEnabled = env->CallBooleanMethod(obj, isGravityEnabledMethod);
 
     jclass vectorClass = env->FindClass("java/util/Vector");
     jmethodID vectorSizeMethod = env->GetMethodID(vectorClass, "size", "()I");
@@ -370,8 +370,8 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
 
         float forceX = 0.0f;
         float forceY = 0.0f;
-        if(isGravityEnabled == JNI_TRUE)
-            forceY = mass * 9.8;
+        // if(isGravityEnabled == JNI_TRUE)
+        //     forceY = mass * 9.8;
 
         for (int j = 0; j < numFieldPoints; j++) {
             jobject fieldPoint = env->CallObjectMethod(fieldPoints, vectorGetMethod, j);
@@ -423,7 +423,7 @@ JNIEXPORT jobjectArray JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* e
     }
 
     float angle = env->CallFloatMethod(obj, getAngleMethod);
-    cout << "Angle: " << angle << endl;
+    //cout << "Angle: " << angle << endl;
 
     jmethodID getSpeedMethod = env->GetMethodID(emitterClass, "getSpeed", "()F");
     if (getSpeedMethod == nullptr) {
@@ -432,7 +432,7 @@ JNIEXPORT jobjectArray JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* e
     }
 
     float speed = env->CallFloatMethod(obj, getSpeedMethod);
-    cout << "Speed: " << speed << endl;
+    //cout << "Speed: " << speed << endl;
 
     jmethodID getSpreadMethod = env->GetMethodID(emitterClass, "getSpread", "()F");
     if (getSpreadMethod == nullptr) {
@@ -441,7 +441,7 @@ JNIEXPORT jobjectArray JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* e
     }
 
     float spread = env->CallFloatMethod(obj, getSpreadMethod);
-    cout << "Spread: " << spread << endl;
+    //cout << "Spread: " << spread << endl;
 
     vector<vector<float>> velocities;
 
