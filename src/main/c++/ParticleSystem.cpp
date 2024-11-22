@@ -8,7 +8,7 @@
 
 using namespace std;
 
-float K = 500.0f;
+float K = 200.0f;
 
 const double PI = 3.14159265358979323846;
 
@@ -159,10 +159,10 @@ JNIEXPORT void JNICALL Java_Pack_Particle_Particle_update(JNIEnv* env, jobject o
     env->CallVoidMethod(obj, setPositionMethod, jPositionArray);
     env->DeleteLocalRef(jPositionArray);
 
-    //velocityX = max(maxVelocity, velocityX + (forceX / mass) * dt);
-    //velocityY = max(maxVelocity, velocityY + (forceY / mass) * dt);
-    velocityX += (forceX / mass) * dt;
-    velocityY += (forceY / mass) * dt;
+    velocityX = min(maxVelocity, velocityX + (forceX / mass) * dt);
+    velocityY = min(maxVelocity, velocityY + (forceY / mass) * dt);
+    // velocityX += (forceX / mass) * dt;
+    // velocityY += (forceY / mass) * dt;
 
     // if(velocityX > maxVelocity) velocityX = maxVelocity;
     // if(velocityY > maxVelocity) velocityY = maxVelocity;
@@ -188,11 +188,19 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
     // Retrieve getParticles and getFieldPoints methods
     jmethodID getParticlesMethod = env->GetMethodID(particleSystemClass, "getParticles", "()Ljava/util/Vector;");
     jmethodID getFieldPointsMethod = env->GetMethodID(particleSystemClass, "getFieldPoints", "()Ljava/util/Vector;");
-    //jmethodID isGravityEnabledMethod = env->GetMethodID(particleSystemClass, "isGravityEnabled", "()Z;");
+    jmethodID isGravityEnabledMethod = env->GetMethodID(particleSystemClass, "isGravityEnabled", "()I");
 
+    if(isGravityEnabledMethod == nullptr) cout<<"isGravityEnabledMethod is null"<<endl;
+    //cout<<"isGravityEnabled: "<<env->CallBooleanMethod(obj, isGravityEnabledMethod)<<endl;
     jobject particles = env->CallObjectMethod(obj, getParticlesMethod);
     jobject fieldPoints = env->CallObjectMethod(obj, getFieldPointsMethod);
-    //jboolean isGravityEnabled = env->CallBooleanMethod(obj, isGravityEnabledMethod);
+    jint gravityEnabled = env->CallIntMethod(obj, isGravityEnabledMethod);
+    // Assuming `env`, `obj`, and `isGravityEnabledMethod` are already defined and initialized:
+    //jobject isGravityEnabled = env->CallObjectMethod(obj, isGravityEnabledMethod);
+
+    // // If you need to use it as a standard C++ boolean:
+    // bool gravityEnabled = (isGravityEnabled == JNI_TRUE);
+
 
     jclass vectorClass = env->FindClass("java/util/Vector");
     jmethodID vectorSizeMethod = env->GetMethodID(vectorClass, "size", "()I");
@@ -219,8 +227,8 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
 
         float forceX = 0.0f;
         float forceY = 0.0f;
-        // if(isGravityEnabled == JNI_TRUE)
-        //     forceY = mass * 9.8;
+        if(gravityEnabled == 1)
+            forceY = mass * 5.0;
 
         for (int j = 0; j < numFieldPoints; j++) {
             jobject fieldPoint = env->CallObjectMethod(fieldPoints, vectorGetMethod, j);
@@ -228,8 +236,14 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
 
             jmethodID getFieldPointPosition = env->GetMethodID(fieldPointClass, "getPosition", "()Ljava/util/Vector;");
             jmethodID getFieldStrengthMethod = env->GetMethodID(fieldPointClass, "getFieldStrength", "()F");
+            jmethodID getFieldTypeMethod = env->GetMethodID(fieldPointClass, "getType", "()Ljava/lang/String;");
 
             jobject fieldPointPosition = env->CallObjectMethod(fieldPoint, getFieldPointPosition);
+            jstring javaString = (jstring) env->CallObjectMethod(fieldPoint, getFieldTypeMethod);
+            const char* charString = env->GetStringUTFChars(javaString, nullptr);
+            std::string fieldType(charString);
+            //const char* fieldTypeChars = env->GetStringUTFChars(fieldType, NULL);
+
             float fieldStrength = env->CallFloatMethod(fieldPoint, getFieldStrengthMethod);
 
             float fx = getVectorElement(env, fieldPointPosition, 0);
@@ -240,9 +254,24 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
             float distanceSquared = dx * dx + dy * dy;
             float distance = sqrt(distanceSquared);
 
-            float forceMagnitude = (charge * fieldStrength * K) / distanceSquared;
-            forceX += forceMagnitude * (dx / distance);
-            forceY += forceMagnitude * (dy / distance);
+            float forceMagnitude;
+            //cout<<fieldType<<endl;
+            if(distance<10.0f) forceMagnitude = 0.0f;
+            else
+            {
+                forceMagnitude = (charge * fieldStrength * K) / distanceSquared;
+                if(fieldType == "B")
+                {
+                    forceMagnitude*=-1;
+                }
+                forceX += forceMagnitude * (dx / distance);
+                forceY += forceMagnitude * (dy / distance);
+            }
+
+            env->ReleaseStringUTFChars(javaString, charString);
+
+            // Optional: Delete the local reference to the Java string to avoid memory leaks
+            env->DeleteLocalRef(javaString);
 
             env->DeleteLocalRef(fieldPointPosition);
             env->DeleteLocalRef(fieldPoint);

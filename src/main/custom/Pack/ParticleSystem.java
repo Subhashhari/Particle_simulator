@@ -23,7 +23,7 @@ public class ParticleSystem
     private Vector<Particle> particles;
     private Vector<FieldPoint> fieldPoints;
     private Vector<Emitter> emitters;
-    private boolean gravityEnabled;
+    private int gravityEnabled;
     private double friction;
     private int maxParticles;
 
@@ -32,7 +32,7 @@ public class ParticleSystem
         particles = new Vector<>();
         fieldPoints = new Vector<>();
         emitters= new Vector<>();
-        this.gravityEnabled = false;
+        gravityEnabled = 0;
     }
     public Vector<Particle> getParticles()
     {
@@ -114,12 +114,12 @@ public class ParticleSystem
 	//     this.oe=emitter;
     // }
 
-    public boolean isGravityEnabled()
+    public int isGravityEnabled()
     {
-        return this.gravityEnabled;
+        return gravityEnabled;
     }
 
-    public void setGravityEnabled(boolean gravityEnabled)
+    public void setGravityEnabled(int gravityEnabled)
     {
         this.gravityEnabled = gravityEnabled;
     }    
