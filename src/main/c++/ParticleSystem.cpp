@@ -228,7 +228,7 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
         float forceX = 0.0f;
         float forceY = 0.0f;
         if(gravityEnabled == 1)
-            forceY = mass * 5.0;
+            forceY = mass * 0.1;
 
         for (int j = 0; j < numFieldPoints; j++) {
             jobject fieldPoint = env->CallObjectMethod(fieldPoints, vectorGetMethod, j);
@@ -323,7 +323,7 @@ JNIEXPORT jobjectArray JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* e
 
     vector<vector<float>> velocities;
 
-    for (int i=0 ; i<20; i++) 
+    for (int i=0 ; i<10; i++) 
     {
         float angU = angle + spread/2;
         float angL = angle - spread/2;
@@ -411,11 +411,23 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
     vector<float> cppPositionVector = getCppVectorFromJavaVector(env, positionVector);
     cout<<"Position: " << cppPositionVector[1];
 
+    jmethodID getMeanPositionMethod = env->GetMethodID(emitterClass, "getMeanPosition", "()Ljava/util/Vector;");
+    if (getMeanPositionMethod == nullptr) {
+        std::cerr << "Could not find getMeanPosition() method" << std::endl;
+        return;
+    }
 
-    float vy = A*2*PI*f*cos(theta);
-    cppPositionVector[1] += vy;
+    // Call getPosition() to get the Java Vector<Float>
+    jobject meanPositionVector = env->CallObjectMethod(obj, getMeanPositionMethod);
 
-    float newTheta = theta + 2*PI*f;
+    // Convert the Java Vector<Float> to a C++ std::vector<float>
+    vector<float> cppMeanPositionVector = getCppVectorFromJavaVector(env, meanPositionVector);
+    cout<<"Mean: " << cppMeanPositionVector[1];
+
+    float newTheta = theta + 2 * PI * f; // Increment theta by angular frequency
+    float newY = cppMeanPositionVector[1] + A * sin(newTheta); // Update vertical position
+
+    cppPositionVector[1] = newY; // Update the y-component of the position vector
 
     jmethodID setThetaMethod = env->GetMethodID(emitterClass, "setTheta", "(F)V");
     if (setThetaMethod == nullptr) {

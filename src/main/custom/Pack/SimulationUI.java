@@ -89,9 +89,10 @@ public class SimulationUI extends Application {
     }
 
     private VBox createControls() {
+        System.out.println("createControls");
         VBox controls = new VBox(10);
         controls.setStyle("-fx-background-color: #333333; -fx-padding: 10; -fx-border-color: white; -fx-border-width: 2;");
-
+    
         // Buttons
         Button addEmitterButton = new Button("Add Emitter");
         Button addFieldButton = new Button("Add Field");
@@ -99,63 +100,79 @@ public class SimulationUI extends Application {
         Button toggleGravityButton = new Button("Toggle Gravity");
         Button pauseButton = new Button("Pause/Resume");
         Button stepButton = new Button("Step");
+    
+        // Sliders
+        velocitySlider = createSlider(1, 10, 3, "Particle Velocity");
+        spreadSlider = createSlider(0, 2 * 3.16, 1, "Emitter Spread Angle");
+        angleSlider = createSlider(0, 2 * 3.16, 0, "Emission Angle");
+    
+        addEmitterButton.setOnAction(e -> {
+            // Add an emitter at a random position
+            System.out.println(spreadSlider.getValue());
+            particleSystem.addEmitter(randomPosition(), 3.0f, 1.0f, 0.0f, 1.0f);
+        });
+    
+        addFieldButton.setOnAction(e -> {
+            // Add a field point at a random position
+            particleSystem.addFieldPoint(randomPosition(), 10.0f, "B");
+        });
+    
+        resetButton.setOnAction(e -> {
+            // Clear all particles, emitters, and fields
+            particleSystem.getParticles().clear();
+        });
+    
+        toggleGravityButton.setOnAction(e -> {
+            // Toggle gravity for the particle system
+            particleSystem.setGravityEnabled(particleSystem.isGravityEnabled() ^ 1);
+        });
+    
+        pauseButton.setOnAction(e -> {
+            isPaused = !isPaused;
+        });
+    
+        stepButton.setOnAction(e -> {
+            if (isPaused) {
+                isStepMode = true;
+            }
+        });
+    
+        // Add controls and conditionally add sliders
+        controls.getChildren().addAll(
+            new Label("Controls:"),
+            addEmitterButton, addFieldButton, resetButton,
+            toggleGravityButton, pauseButton, stepButton,
+            labeledSlider("Velocity:", velocitySlider),
+            labeledSlider("Spread Angle:", spreadSlider),
+            labeledSlider("Emission Angle:", angleSlider)
+        );
+    
+        // Add sliders only if selectedEmitter is not null and draggingEmitter is false
+        // if (selectedEmitter != null) {
+        //     controls.getChildren().addAll(
+        //         velocitySlider, spreadSlider, angleSlider
+        //     );
+        // }
+    
+        return controls;
+    }
+    
+
+    private VBox createAdjustControls() {
+        VBox controls = new VBox(10);
+        controls.setStyle("-fx-background-color: #333333; -fx-padding: 10; -fx-border-color: white; -fx-border-width: 2;");
 
         // Sliders
         velocitySlider = createSlider(1, 10, 3, "Particle Velocity");
         spreadSlider = createSlider(0, 2*3.16, 1, "Emitter Spread Angle");
         angleSlider = createSlider(0, 2*3.16, 0, "Emission Angle");
 
-        addEmitterButton.setOnAction(e -> {
-            // Add an emitter at a random position
-            // System.out.println(angleSlider.getValue());
-            // System.out.println(velocitySlider.getValue());
-            // System.out.println(spreadSlider.getValue());
-            float angle = (float) angleSlider.getValue();
-            float spread = (float) spreadSlider.getValue();
-            float speed = (float)  velocitySlider.getValue();
-            particleSystem.addEmitter(randomPosition(), speed,spread,angle,1.0f);
-            //particleSystem.addOscillatingEmitter(randomPosition(), speed,spread,angle,1.0f,0.1f,10.0f);
-            //System.out.println(angle);
-        });
-
-        addFieldButton.setOnAction(e -> {
-            // Add a field point at a random position
-            particleSystem.addFieldPoint(randomPosition(), 10.0f, "B");
-        });
-
-        resetButton.setOnAction(e -> {
-            // Clear all particles, emitters, and fields
-            //particleSystem = new ParticleSystem();
-            particleSystem.getParticles().clear();
-            // selectedEmitter = null;
-            // selectedFieldPoint = null;
-        });
-
-        toggleGravityButton.setOnAction(e -> {
-            // Toggle trails for particles
-            // for (Particle particle : particleSystem.getParticles()) {
-            //     particle.setTrail(!particle.hasTrail());
-            // }
-            particleSystem.setGravityEnabled(particleSystem.isGravityEnabled()^1);
-        });
-
-        pauseButton.setOnAction(e -> {
-            isPaused = !isPaused;
-        });
-
-        stepButton.setOnAction(e -> {
-            if (isPaused) {
-                isStepMode = true;
-            }
-        });
-
         controls.getChildren().addAll(
             new Label("Controls:"),
-            addEmitterButton, addFieldButton, resetButton, 
-            toggleGravityButton, pauseButton, stepButton,
             labeledSlider("Velocity:", velocitySlider),
             labeledSlider("Spread Angle:", spreadSlider),
             labeledSlider("Emission Angle:", angleSlider)
+        
         );
         return controls;
     }
@@ -195,6 +212,9 @@ public class SimulationUI extends Application {
             if (isNear(x, y, position)) {
                 selectedEmitter = emitter;
                 draggingEmitter = true;
+                //return;
+                // VBox controlBox = createAdjustControls();
+                // controlBox.setPrefWidth(CONTROL_BOX_WIDTH+200);
                 return;
             }
         }
@@ -208,6 +228,7 @@ public class SimulationUI extends Application {
                 return;
             }
         }
+        //root.setRight(controlBox);
     }
 
     private void handleMouseDragged(MouseEvent e) {
@@ -241,6 +262,15 @@ public class SimulationUI extends Application {
     private void update() {
         // Update particle positions in the backend
         particleSystem.removeParticlesOutOfScreen(WIDTH, HEIGHT);
+        float angle = (float) angleSlider.getValue();
+        float spread = (float) spreadSlider.getValue();
+        float speed = (float)  velocitySlider.getValue();
+        for(int i=0; i<particleSystem.getEmitters().size(); i++)
+        {
+            particleSystem.getEmitters().get(i).setAngle(angle);
+            particleSystem.getEmitters().get(i).setSpread(spread);
+            particleSystem.getEmitters().get(i).setSpeed(speed);
+        }
         particleSystem.setForces();
         particleSystem.updateAll();
     }
@@ -254,7 +284,7 @@ public class SimulationUI extends Application {
         List<Particle> particles = particleSystem.getParticles();
         gc.setFill(Color.BLUE);
         for (Particle particle : particles) {
-            gc.fillOval(particle.getPosition().get(0), particle.getPosition().get(1), 2, 2);
+            gc.fillOval(particle.getPosition().get(0), particle.getPosition().get(1), 3, 3);
         }
 
         // Draw emitters

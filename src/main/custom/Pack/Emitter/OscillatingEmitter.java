@@ -7,6 +7,7 @@ public class OscillatingEmitter extends Emitter
     private float amplitude;
     private float frequency;
     private Vector<Float> position;
+    private Vector<Float> meanPosition;
     private float theta;
 
     public OscillatingEmitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, float amplitude, float frequency, ParticleSystem ps)
@@ -15,6 +16,7 @@ public class OscillatingEmitter extends Emitter
         this.amplitude = amplitude;
         this.frequency = frequency;
         this.theta = 0;
+        this.meanPosition = position;
     }
 
     public float getAmplitude()
@@ -46,6 +48,15 @@ public class OscillatingEmitter extends Emitter
     public void setTheta(float theta)
     {
         this.theta = theta;
+    }
+
+    public Vector<Float> getMeanPosition()
+    {
+        return meanPosition;
+    }
+    public void setMeanPosition(Vector<Float> meanPosition)
+    {
+        this.meanPosition = meanPosition;
     }
     
 //     @Override

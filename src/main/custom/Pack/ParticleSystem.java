@@ -128,6 +128,7 @@ public class ParticleSystem
 
     public void updateAll()
     {
+        //System.out.println(particles.size());
         for(int i=0; i<emitters.size(); i++)
         {
             emitters.get(i).emitParticles();
