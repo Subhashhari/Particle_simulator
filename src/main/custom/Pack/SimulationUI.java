@@ -113,7 +113,7 @@ public class SimulationUI extends Application {
             float angle = (float) angleSlider.getValue();
             float spread = (float) spreadSlider.getValue();
             float speed = (float)  velocitySlider.getValue();
-            particleSystem.addEmitter(randomPosition(), speed,spread,angle,1.0f);
+            particleSystem.addOscillatingEmitter(randomPosition(), speed,spread,angle,1.0f, 100f, 0.06f);
             //particleSystem.addOscillatingEmitter(randomPosition(), speed,spread,angle,1.0f,0.1f,10.0f);
             //System.out.println(angle);
         });
@@ -178,8 +178,8 @@ public class SimulationUI extends Application {
 
     private Vector<Float> randomPosition() {
         Vector<Float> position = new Vector<>();
-        position.add((float) (Math.random() * (WIDTH - CONTROL_BOX_WIDTH)));  // X-coordinate
-        position.add((float) (Math.random() * HEIGHT)); // Y-coordinate
+        position.add((float) ((WIDTH - CONTROL_BOX_WIDTH))/2);  // X-coordinate
+        position.add((float) (HEIGHT)/2); // Y-coordinate
         return position;
     }
 
