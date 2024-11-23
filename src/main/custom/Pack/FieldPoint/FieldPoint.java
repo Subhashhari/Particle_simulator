@@ -80,31 +80,57 @@ public class FieldPoint {
      * @return Force vector applied to the particle
      */
 
-//     @Override
-// public String toString() {
-//     return String.format("%s,%f,%s", position, fieldStrength, type);
-// }
+     @Override
+     public String toString() {
+         return String.format("%s/%f/%s", position, fieldStrength, type);
+     }
 
-// public static FieldPoint parse(String line) {
-//     try {
-//         String[] parts = line.split(",");
-//         Vector<Float> position = parseVector(parts[0]);
-//         float strength = Float.parseFloat(parts[1]);
-//         String type = parts[2];
-//         return new FieldPoint(position, strength, type);
-//     } catch (Exception e) {
-//         System.err.println("Error parsing FieldPoint: " + line);
-//         return null;
-//     }
-// }
-
-// private static Vector<Float> parseVector(String vectorString) {
-//     vectorString = vectorString.replace("[", "").replace("]", "");
-//     Vector<Float> vector = new Vector<>();
-//     for (String value : vectorString.split(", ")) {
-//         vector.add(Float.parseFloat(value));
-//     }
-//     return vector;
-// }
+     public static FieldPoint parse(String line) {
+        try {
+            // Split the line into parts: position, field strength, and type
+            String[] parts = line.split("/", 3); // Split into 3 parts max
+            if (parts.length < 3) {
+                throw new IllegalArgumentException("Invalid FieldPoint format: " + line);
+            }
+    
+            // Parse the position vector
+            Vector<Float> position = parseVector(parts[0]);
+    
+            // Parse the field strength
+            float fieldStrength = Float.parseFloat(parts[1].trim());
+    
+            // Extract and clean up the type
+            String type = parts[2].trim();
+    
+            // Return the constructed FieldPoint
+            return new FieldPoint(position, fieldStrength, type);
+        } catch (Exception e) {
+            System.err.println("Error parsing FieldPoint: " + line);
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
+    private static Vector<Float> parseVector(String vectorString) {
+        try {
+            // Remove square brackets and any surrounding whitespace
+            vectorString = vectorString.trim().replaceAll("[\\[\\]]", "");
+    
+            // Split the string into components
+            String[] values = vectorString.split(",\\s*");
+    
+            // Parse each component into a Float and add to the vector
+            Vector<Float> vector = new Vector<>();
+            for (String value : values) {
+                vector.add(Float.parseFloat(value.trim()));
+            }
+            return vector;
+        } catch (Exception e) {
+            System.err.println("Error parsing vector: " + vectorString);
+            throw e; // Re-throw to let the caller handle it
+        }
+    }
+    
 
 }

@@ -147,39 +147,42 @@ public class Particle {
     }
     */
     @Override
-public String toString() {
-    return String.format("%f,%f,%s,%s,%s,%f,%d,%s,%b", 
-        mass, charge, velocity, position, force, size, lifespan, color, hasTrail);
-}
-
-public static Particle parse(String line) {
-    try {
-        String[] parts = line.split(",");
-        float mass = Float.parseFloat(parts[0]);
-        float charge = Float.parseFloat(parts[1]);
-        Vector<Float> velocity = parseVector(parts[2]);
-        Vector<Float> position = parseVector(parts[3]);
-        Vector<Float> force = parseVector(parts[4]);
-        float size = Float.parseFloat(parts[5]);
-        int lifespan = Integer.parseInt(parts[6]);
-        String color = parts[7];
-        boolean hasTrail = Boolean.parseBoolean(parts[8]);
-        return new Particle(mass, charge, velocity, position, force, size, lifespan, color, hasTrail);
-    } catch (Exception e) {
-        System.err.println("Error parsing Particle: " + line);
-        return null;
+    public String toString() {
+        return String.format("%f,%f,%s,%s,%s,%f,%d,%s,%b",
+            mass, charge, velocity, position, force, size, lifespan, color, hasTrail);
     }
-}
+    
 
-private static Vector<Float> parseVector(String vectorString) {
-    vectorString = vectorString.replaceAll("[\\[\\]]", ""); // Remove square brackets
-    String[] values = vectorString.split(",\\s*");
-    Vector<Float> vector = new Vector<>();
-    for (String value : values) {
-        vector.add(Float.parseFloat(value));
+    public static Particle parse(String line) {
+        try {
+            String[] parts = line.split(",");
+            float mass = Float.parseFloat(parts[0]);
+            float charge = Float.parseFloat(parts[1]);
+            Vector<Float> velocity = parseVector(parts[2]);
+            Vector<Float> position = parseVector(parts[3]);
+            Vector<Float> force = parseVector(parts[4]);
+            float size = Float.parseFloat(parts[5]);
+            int lifespan = Integer.parseInt(parts[6]);
+            String color = parts[7];
+            boolean hasTrail = Boolean.parseBoolean(parts[8]);
+            return new Particle(mass, charge, velocity, position, force, size, lifespan, color, hasTrail);
+        } catch (Exception e) {
+            System.err.println("Error parsing Particle: " + line);
+            return null;
+        }
     }
-    return vector;
-}
+    
+
+    private static Vector<Float> parseVector(String vectorString) {
+        vectorString = vectorString.replaceAll("[\\[\\]]", ""); // Remove square brackets
+        String[] values = vectorString.split(",\\s*");
+        Vector<Float> vector = new Vector<>();
+        for (String value : values) {
+            vector.add(Float.parseFloat(value));
+        }
+        return vector;
+    }
+    
 
 
 }

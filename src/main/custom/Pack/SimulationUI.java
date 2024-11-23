@@ -100,6 +100,8 @@ public class SimulationUI extends Application {
         Button toggleGravityButton = new Button("Toggle Gravity");
         Button pauseButton = new Button("Pause/Resume");
         Button stepButton = new Button("Step");
+        Button savePreset = new Button("Save Preset");
+        Button loadPreset = new Button("Load Preset");
     
         // Sliders
         velocitySlider = createSlider(1, 10, 3, "Particle Velocity");
@@ -109,6 +111,7 @@ public class SimulationUI extends Application {
         addEmitterButton.setOnAction(e -> {
             // Add an emitter at a random position
             System.out.println(spreadSlider.getValue());
+            //particleSystem.addOscillatingEmitter(randomPosition(), 3.0f, 1.0f, 0.0f, 1.0f, 100.0f, 10.0f);
             particleSystem.addEmitter(randomPosition(), 3.0f, 1.0f, 0.0f, 1.0f);
         });
     
@@ -136,15 +139,37 @@ public class SimulationUI extends Application {
                 isStepMode = true;
             }
         });
+
+        savePreset.setOnAction(e -> {
+            SystemPreset preset = new SystemPreset(particleSystem);
+
+    
+            // Define the file to save the preset
+            String filename = "preset.txt"; // File name for the preset
+    
+            // Save the preset to a file
+            preset.savePreset(filename);
+        });
+
+        loadPreset.setOnAction(e -> {
+            SystemPreset preset = new SystemPreset(particleSystem);
+
+            // Define the file to load the preset
+            String filename = "preset.txt"; // File name for the preset
+    
+            // Load the preset from the file
+            preset.loadPreset(filename);
+        });
     
         // Add controls and conditionally add sliders
         controls.getChildren().addAll(
             new Label("Controls:"),
             addEmitterButton, addFieldButton, resetButton,
-            toggleGravityButton, pauseButton, stepButton,
+            toggleGravityButton, pauseButton, stepButton, savePreset, loadPreset,
             labeledSlider("Velocity:", velocitySlider),
             labeledSlider("Spread Angle:", spreadSlider),
             labeledSlider("Emission Angle:", angleSlider)
+
         );
     
         // Add sliders only if selectedEmitter is not null and draggingEmitter is false

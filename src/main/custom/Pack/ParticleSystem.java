@@ -46,6 +46,26 @@ public class ParticleSystem
     {
         return emitters;
     }
+    public double getFriction()
+    {
+        return friction;
+    }
+
+    public int getMaxParticles()
+    {
+        return maxParticles;
+    }
+
+    public void setFriction(double friction)
+    {
+        this.friction = friction;
+    }
+
+    public void setMaxParticles(int maxParticles)
+    {
+        this.maxParticles = maxParticles;
+    }
+
     public void addParticle(float mass, float charge, Vector<Float> velocity, Vector<Float> position, Vector<Float> force, float size, int lifespan, String color, boolean hasTrai)
     {
         particles.add(new Particle(mass,charge,velocity,position,force,size,lifespan,color,hasTrai));

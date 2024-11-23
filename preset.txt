@@ -1,4 +1,15 @@
-Particles
 FieldPoints
-Emitter
-OscillatingEmitter{position=[2.5, 2.5], emissionRate=0, spread=0.7853982, angle=0.0, speed=1.0, isEmitting=false, amplitude=0.5, frequency=0.01, theta=0.0}
+[736.0, 345.0]/10.000000/B
+[239.0, 349.0]/10.000000/B
+[757.0173, 799.2491]/10.000000/B
+[500.31384, 595.0669]/10.000000/B
+[526.0, 84.0]/10.000000/B
+Emitters
+Emitter{position=[563.0, 352.0]/ spread=6.320000/ angle=5.045806/ speed=3.000000/ particlesMass=1.000000/ isEmitting=true}
+Emitter{position=[182.0, 124.0]/ spread=6.320000/ angle=5.045806/ speed=3.000000/ particlesMass=1.000000/ isEmitting=true}
+Emitter{position=[785.0, 99.0]/ spread=6.320000/ angle=5.045806/ speed=3.000000/ particlesMass=1.000000/ isEmitting=true}
+Emitter{position=[501.0, 526.0]/ spread=6.320000/ angle=5.045806/ speed=3.000000/ particlesMass=1.000000/ isEmitting=true}
+Settings
+GravityEnabled=0
+Friction=0.0
+MaxParticles=0

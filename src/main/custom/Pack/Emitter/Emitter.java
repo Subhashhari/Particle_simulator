@@ -7,7 +7,7 @@ import javafx.scene.shape.Circle;
 public class Emitter
 {
     private Vector<Float> position;
-    private float spread;
+    private float spread;   
     private float angle;
     private float speed;
     private float particlesMass;
@@ -88,42 +88,42 @@ public class Emitter
         system.addParticles(particlesMass, position, velocities);
     }
     
-    // @Override
-    // public String toString() {
-	//     return "Emitter{" +
-	// 	    "position=" + position.toString() +
-	// 	    ", emissionRate=" + emissionRate +
-	// 	    ", spread=" + spread +
-	// 	    ", angle=" + angle +
-	// 	    ", speed=" + speed +
-	// 	    ", isEmitting=" + isEmitting +
-	// 	    '}';
-//    }
-//    public static Emitter parse(String line, ParticleSystem ps) {
-//     // Example input: Emitter{position=[2.5, 3.5], emissionRate=50, spread=1.5, angle=45.0, speed=10.0, isEmitting=true}
-// 	    try {
-// 		line = line.replace("Emitter{", "").replace("}", "");
-// 		String[] parts = line.split(", ");
-// 		Vector<Float> position = new Vector<>();
-// 		String[] posValues = parts[0].split("=")[1].replace("[", "").replace("]", "").split(", ");
-// 		for (String pos : posValues) {
-// 		    position.add(Float.parseFloat(pos));
-// 		}
-// 		int emissionRate = Integer.parseInt(parts[1].split("=")[1]);
-// 		float spread = Float.parseFloat(parts[2].split("=")[1]);
-// 		float angle = Float.parseFloat(parts[3].split("=")[1]);
-// 		float speed = Float.parseFloat(parts[4].split("=")[1]);
-// 		boolean isEmitting = Boolean.parseBoolean(parts[5].split("=")[1]);
+        @Override
+    public String toString() {
+        return String.format("Emitter{position=%s/ spread=%f/ angle=%f/ speed=%f/ particlesMass=%f/ isEmitting=%b}",
+            position.toString(), spread, angle, speed, particlesMass, isEmitting);
+    }
+    public static Emitter parse(String line, ParticleSystem ps) {
+        try {
+            line = line.replace("Emitter{", "").replace("}", ""); // Remove enclosing braces
+            String[] parts = line.split("/\\s*");
+            
+            Vector<Float> position = parseVector(parts[0].split("=")[1]);
+            float spread = Float.parseFloat(parts[1].split("=")[1]);
+            float angle = Float.parseFloat(parts[2].split("=")[1]);
+            float speed = Float.parseFloat(parts[3].split("=")[1]);
+            float particlesMass = Float.parseFloat(parts[4].split("=")[1]);
+            boolean isEmitting = Boolean.parseBoolean(parts[5].split("=")[1]);
 
-// 		Emitter emitter = new Emitter(position, speed, spread, angle, ps);
-// 		emitter.setEmissionRate(emissionRate);
-// 		emitter.isEmitting = isEmitting; // Direct field access since it's private
-// 		return emitter;
-// 	    } catch (Exception e) {
-// 		e.printStackTrace();
-// 		return null;
-// 	    }
-// 	}
+            Emitter emitter = new Emitter(position, speed, spread, angle, particlesMass, ps);
+            emitter.setIsEmitting(isEmitting);
+            return emitter;
+        } catch (Exception e) {
+            System.err.println("Error parsing Emitter: " + line);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static Vector<Float> parseVector(String vectorString) {
+        vectorString = vectorString.replaceAll("[\\[\\]]", ""); // Remove square brackets
+        String[] values = vectorString.split(",\\s*");
+        Vector<Float> vector = new Vector<>();
+        for (String value : values) {
+            vector.add(Float.parseFloat(value));
+        }
+        return vector;
+    }
 
 
     public native void updateEmitter();
