@@ -159,10 +159,10 @@ JNIEXPORT void JNICALL Java_Pack_Particle_Particle_update(JNIEnv* env, jobject o
     env->CallVoidMethod(obj, setPositionMethod, jPositionArray);
     env->DeleteLocalRef(jPositionArray);
 
-    velocityX = min(maxVelocity, velocityX + (forceX / mass) * dt);
-    velocityY = min(maxVelocity, velocityY + (forceY / mass) * dt);
-    // velocityX += (forceX / mass) * dt;
-    // velocityY += (forceY / mass) * dt;
+    // velocityX = min(maxVelocity, velocityX + (forceX / mass) * dt);
+    // velocityY = min(maxVelocity, velocityY + (forceY / mass) * dt);
+    velocityX += (forceX / mass) * dt;
+    velocityY += (forceY / mass) * dt;
 
     // if(velocityX > maxVelocity) velocityX = maxVelocity;
     // if(velocityY > maxVelocity) velocityY = maxVelocity;
