@@ -171,6 +171,9 @@ public class SimulationUI extends Application {
         });
     
         loadPreset.setOnAction(e -> {
+            //delete current particleSystem
+            //particleSystem.delete();
+            particleSystem = new ParticleSystem();
             SystemPreset preset = new SystemPreset(particleSystem);
             String filename = "preset.txt"; // File name for the preset
             preset.loadPreset(filename);
