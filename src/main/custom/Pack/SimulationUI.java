@@ -34,6 +34,7 @@ public class SimulationUI extends Application {
     private Slider velocitySlider;
     private Slider spreadSlider;
     private Slider angleSlider;
+    private Slider fieldForceSlider;
 
     private Emitter selectedEmitter; // Currently selected emitter
     private FieldPoint selectedFieldPoint; // Currently selected field point
@@ -44,6 +45,7 @@ public class SimulationUI extends Application {
     private boolean isStepMode = false;
     private AnimationTimer timer;
     private VBox sliderContainer;
+    private VBox fieldContainer;
 
     @Override
     public void start(Stage stage) {
@@ -111,6 +113,7 @@ public class SimulationUI extends Application {
         velocitySlider = createSlider(1, 10, 3, "Particle Velocity");
         spreadSlider = createSlider(0, 2 * 3.16, 1, "Emitter Spread Angle");
         angleSlider = createSlider(0, 2 * 3.16, 0, "Emission Angle");
+        fieldForceSlider = createSlider(5, 15, 10, "Field Force");
 
         // Slider container that will be added when emitter is selected and not being dragged
         sliderContainer = new VBox(10);
@@ -122,6 +125,14 @@ public class SimulationUI extends Application {
                 deleteEmitter
         );
         sliderContainer.setVisible(false); // Hide initially
+
+        fieldContainer = new VBox(10);
+        fieldContainer.setStyle("-fx-background-color: #555555; -fx-padding: 10; -fx-border-color: white; -fx-border-width: 1;");
+        fieldContainer.getChildren().addAll(
+                labeledSlider("Field Strength:", fieldForceSlider),
+                deleteField
+        );
+        fieldContainer.setVisible(false); // Hide initially
 
         // fieldContainer = new VBox(10);
         // fieldContainer.setStyle("-fx-background-color: #555555; -fx-padding: 10; -fx-border-color: white; -fx-border-width: 1;");
@@ -194,6 +205,7 @@ public class SimulationUI extends Application {
             {
                 particleSystem.getFieldPoints().remove(selectedFieldPoint);
                 selectedFieldPoint = null;
+                fieldContainer.setVisible(false);
                 //updateControlBox();
             }
         });
@@ -205,6 +217,7 @@ public class SimulationUI extends Application {
                 toggleGravityButton, pauseButton, stepButton, savePreset, loadPreset
         );
         controls.getChildren().add(sliderContainer);
+        controls.getChildren().add(fieldContainer);
     
         // Only add the slider container if selectedEmitter != null and draggingEmitter == false
         // if (selectedEmitter != null) {
@@ -265,6 +278,8 @@ public class SimulationUI extends Application {
             if (isNear(x, y, position)) {
                 selectedFieldPoint = fieldPoint;
                 draggingField = true;
+                fieldForceSlider.setValue(fieldPoint.getFieldStrength());
+                updateControlBox();
                 return;
             }
         }
@@ -306,6 +321,15 @@ public class SimulationUI extends Application {
         } else {
             sliderContainer.setVisible(false);
         }
+
+        if(selectedFieldPoint != null)
+        {
+            fieldContainer.setVisible(true);
+        }
+        else
+        {
+            fieldContainer.setVisible(false);
+        }
     }
     
 
@@ -326,6 +350,11 @@ public class SimulationUI extends Application {
             selectedEmitter.setAngle(angle);
             selectedEmitter.setSpread(spread);
             selectedEmitter.setSpeed(speed);
+        }
+        float forceField = (float) fieldForceSlider.getValue();
+        if(selectedFieldPoint != null)
+        {
+            selectedFieldPoint.setFieldStrength(forceField);
         }
         particleSystem.setForces();
         particleSystem.updateAll();

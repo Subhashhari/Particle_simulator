@@ -321,17 +321,48 @@ JNIEXPORT jobjectArray JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* e
     float spread = env->CallFloatMethod(obj, getSpreadMethod);
     //cout << "Spread: " << spread << endl;
 
-    vector<vector<float>> velocities;
+    //get particleSystem
+    // jclass vectorClass = env->FindClass("java/util/Vector");
+    // jmethodID vectorSizeMethod = env->GetMethodID(vectorClass, "size", "()I");
 
-    for (int i=0 ; i<10; i++) 
-    {
-        float angU = angle + spread/2;
-        float angL = angle - spread/2;
-        float ang = randomDouble(angL, angU);
-        float vx = cos(ang) * speed;
-        float vy = sin(ang) * speed;
-        velocities.push_back({vx, vy});
-    }
+    // jmethodID getParticlesMethod = env->GetMethodID(emitterClass, "getSystem", "()Ljava/util/Vector;");
+
+    vector<vector<float>> velocities;
+            for (int i=0 ; i<10; i++) 
+        {
+            float angU = angle + spread/2;
+            float angL = angle - spread/2;
+            float ang = randomDouble(angL, angU);
+            float vx = cos(ang) * speed;
+            float vy = sin(ang) * speed;
+            velocities.push_back({vx, vy});
+        }
+
+
+    // if(particlesSize<5000)
+    // {
+    //     for (int i=0 ; i<10; i++) 
+    //     {
+    //         float angU = angle + spread/2;
+    //         float angL = angle - spread/2;
+    //         float ang = randomDouble(angL, angU);
+    //         float vx = cos(ang) * speed;
+    //         float vy = sin(ang) * speed;
+    //         velocities.push_back({vx, vy});
+    //     }
+    // }
+    // else
+    // {
+    //     for (int i=0 ; i<(particlesSize-5000); i++) 
+    //     {
+    //         float angU = angle + spread/2;
+    //         float angL = angle - spread/2;
+    //         float ang = randomDouble(angL, angU);
+    //         float vx = cos(ang) * speed;
+    //         float vy = sin(ang) * speed;
+    //         velocities.push_back({vx, vy});
+    //     }
+    // }
 
     // Determine the number of coordinates
     jsize numVelocities = velocities.size();
