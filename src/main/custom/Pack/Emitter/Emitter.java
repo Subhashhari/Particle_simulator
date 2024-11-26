@@ -6,13 +6,13 @@ import javafx.scene.shape.Circle;
 
 public class Emitter
 {
-    private Vector<Float> position;
+    protected Vector<Float> position;
     private float spread;   
     private float angle;
-    private float speed;
-    private float particlesMass;
-    private boolean isEmitting;
-    private ParticleSystem system;
+    protected float speed;
+    protected float particlesMass;
+    protected boolean isEmitting;
+    protected ParticleSystem system;
     private Circle visualRepresentation;
 
     public Emitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, ParticleSystem ps)
@@ -28,12 +28,16 @@ public class Emitter
     }
 
      // Getter for JavaFX graphical representation
-     public Circle getVisualRepresentation() {
+    public Circle getVisualRepresentation() {
         return visualRepresentation;
     }
     
     public Vector<Float> getPosition() {
         return position;
+    }
+
+    public float getParticlesMass() {
+        return particlesMass;
     }
     
     public void setPosition(Vector<Float> position) {

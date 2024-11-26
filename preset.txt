@@ -5,6 +5,7 @@ FieldPoints
 Emitters
 Emitter{position=[867.0, 396.0]/ spread=0.337419/ angle=3.160000/ speed=4.846774/ particlesMass=1.000000/ isEmitting=true}
 Emitter{position=[446.0, 393.0]/ spread=0.133548/ angle=0.000000/ speed=6.411290/ particlesMass=1.000000/ isEmitting=true}
+Emitter{position=[657.9566, 342.64993]/ spread=1.000000/ angle=0.000000/ speed=3.000000/ particlesMass=1.000000/ isEmitting=true}
 Settings
 GravityEnabled=0
 Friction=0.0

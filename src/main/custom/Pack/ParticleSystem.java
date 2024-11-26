@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import Pack.Emitter.Emitter;
 import Pack.Emitter.OscillatingEmitter;
+import Pack.Emitter.PulseEmitter;
 import Pack.FieldPoint.FieldPoint;
 import Pack.Particle.Particle;
 import javafx.scene.paint.Color;
@@ -93,6 +94,10 @@ public class ParticleSystem
     public void addOscillatingEmitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, float amplitude, float frequency)
     {
         emitters.add(new OscillatingEmitter(position, speed, spread, angle, particlesMass, amplitude, frequency, this));
+    }
+    public void addPulseEmitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, float pulseWidth, float pulseSpeed)
+    {
+        emitters.add(new PulseEmitter(position, speed, spread, angle, particlesMass, this));
     }
     public void removeParticlesOutOfScreen(int width, int height)
     {

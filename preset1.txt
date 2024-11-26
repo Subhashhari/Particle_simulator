@@ -1,0 +1,8 @@
+FieldPoints
+[607.0, 327.0]/10.000000/A
+Emitters
+Emitter{position=[195.0, 312.0]/ spread=1.000000/ angle=0.000000/ speed=3.000000/ particlesMass=1.000000/ isEmitting=true}
+Settings
+GravityEnabled=0
+Friction=0.0
+MaxParticles=0
