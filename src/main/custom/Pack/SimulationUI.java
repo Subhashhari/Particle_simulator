@@ -146,7 +146,8 @@ public class SimulationUI extends Application {
     
         addEmitterButton.setOnAction(e -> {
             // Add an emitter at a random position
-            particleSystem.addEmitter(randomPosition(), 3.0f, 1.0f, 0.0f, 1.0f);
+            //particleSystem.addEmitter(randomPosition(), 3.0f, 1.0f, 0.0f, 1.0f);
+            particleSystem.addPulseEmitter(randomPosition(), 3.0f, 1.0f, 0.0f, 1.0f, 0.5f, 0.1f);
         });
     
         addFieldAButton.setOnAction(e -> {

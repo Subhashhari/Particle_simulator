@@ -154,11 +154,14 @@ public class ParticleSystem
     public void updateAll()
     {
         //System.out.println(particles.size());
-        for(int i=0; i<emitters.size(); i++)
+        if(particles.size()<5000)
         {
-            emitters.get(i).emitParticles();
-            if(emitters.get(i) instanceof OscillatingEmitter)
-                emitters.get(i).updateEmitter();
+            for(int i=0; i<emitters.size(); i++)
+            {
+                emitters.get(i).emitParticles();
+                if(emitters.get(i) instanceof OscillatingEmitter)
+                    emitters.get(i).updateEmitter();
+            }
         }
 //        setForces();
         for(int i=0;i<particles.size();i++)
