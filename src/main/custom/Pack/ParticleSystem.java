@@ -95,16 +95,19 @@ public class ParticleSystem
     {
         emitters.add(new OscillatingEmitter(position, speed, spread, angle, particlesMass, amplitude, frequency, this));
     }
-    public void addPulseEmitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, float pulseWidth, float pulseSpeed)
+    public void addPulseEmitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, float frequency)
     {
-        emitters.add(new PulseEmitter(position, speed, spread, angle, particlesMass, this));
+        emitters.add(new PulseEmitter(position, speed, spread, angle, particlesMass, frequency, this));
     }
     public void removeParticlesOutOfScreen(int width, int height)
     {
+        //System.out.println(width+","+height);
         for(int i=0 ; i<particles.size() ; i++)
         {
+            //System.out.println(particles.get(i).getPosition().get(0)+","+particles.get(i).getPosition().get(1));
             if(particles.get(i).getPosition().get(0)<0 || particles.get(i).getPosition().get(0)>width || particles.get(i).getPosition().get(1)<0 || particles.get(i).getPosition().get(1)>height)
             {
+                //System.out.println("Removing particle");
                 particles.remove(i);
             }
         }
@@ -154,15 +157,12 @@ public class ParticleSystem
     public void updateAll()
     {
         //System.out.println(particles.size());
-        if(particles.size()<5000)
+        for(int i=0; i<emitters.size(); i++)
         {
-            for(int i=0; i<emitters.size(); i++)
-            {
-                emitters.get(i).emitParticles();
-                if(emitters.get(i) instanceof OscillatingEmitter)
-                    emitters.get(i).updateEmitter();
-            }
-        }
+            emitters.get(i).emitParticles();
+            if(emitters.get(i) instanceof OscillatingEmitter)
+                emitters.get(i).updateEmitter();
+        }        
 //        setForces();
         for(int i=0;i<particles.size();i++)
         {

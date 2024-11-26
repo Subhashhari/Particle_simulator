@@ -53,6 +53,7 @@ package Pack;
         private AnimationTimer timer;
         private VBox sliderContainer;
         private VBox fieldContainer;
+        private boolean showVelocityColors = false;
 
         // // @Override
         // public class SimulationUI extends Application {
@@ -107,6 +108,8 @@ package Pack;
         controls.setStyle("-fx-background-color: #333333; -fx-padding: 10; -fx-border-color: white; -fx-border-width: 2;");
 
         Button addEmitterButton = new Button("Add Emitter");
+        Button addOscillatingEmitterButton = new Button("Add Oscillating Emitter");
+        Button addPulseEmitterButton = new Button("Add Pulse Emitter");        
         Button addFieldAButton = new Button("Add FieldA");
         Button addFieldBButton = new Button("Add FieldB");
         Button resetButton = new Button("Reset");
@@ -117,6 +120,9 @@ package Pack;
         Button loadPreset = new Button("Load Preset");
         Button deleteEmitter = new Button("Delete Emitter");
         Button deleteField = new Button("Delete Field");
+        Button hideVelocitiesButton = new Button("Hide Velocities");
+        Button showVelocity = new Button("Show Velocity");
+
         //Button presetButton = new Button("Preset Button");
         Button clear = new Button("Clear");
             // Sliders
@@ -159,7 +165,16 @@ package Pack;
                 // Add an emitter at a random position
                 particleSystem.addEmitter(randomPosition(), 3.0f, 1.0f, 0.0f, 1.0f);
             });
-        
+
+            addOscillatingEmitterButton.setOnAction(e -> {
+                // Add an emitter at a random position
+                particleSystem.addOscillatingEmitter(randomPosition(), 3.0f, 1.0f, 0.0f, 1.0f, 50f, 0.01f);
+            });
+    
+            addPulseEmitterButton.setOnAction(e -> {
+                // Add an emitter at a random position
+                particleSystem.addPulseEmitter(randomPosition(), 3.0f, 1.0f, 0.0f, 1.0f, 0.002f);
+            });        
             addFieldAButton.setOnAction(e -> {
                 // Add a field point at a random position
                 particleSystem.addFieldPoint(randomPosition(), 10.0f, "A");
@@ -195,6 +210,32 @@ package Pack;
                     isStepMode = true;
                 }
             });
+
+// Add the following to the createControls method
+//Button showAcceleration = new Button("Show Acceleration");
+
+            showVelocity.setOnAction(e -> {
+                // Logic to toggle velocity-based coloring
+                showVelocityColors = !showVelocityColors;
+                updateControlBox();
+            });
+
+// showAcceleration.setOnAction(e -> {
+//     // Logic to toggle acceleration-based coloring
+//     showAccelerationColors = !showAccelerationColors;
+//     updateControlBox();
+// });
+
+// Add the buttons to the control box
+            controls.getChildren().addAll(showVelocity);
+
+            hideVelocitiesButton.setOnAction(e -> {
+                // Toggle the visibility of velocity coloring
+                showVelocityColors = false; // Disable velocity coloring
+                updateControlBox();
+            });
+
+            controls.getChildren().add(hideVelocitiesButton);            
         
             savePreset.setOnAction(e -> {
                 FileChooser fileChooser = new FileChooser();
@@ -272,9 +313,9 @@ package Pack;
         
             // Add controls and conditionally add sliders
             controls.getChildren().addAll(
-                    new Label("Controls:"),
-                    addEmitterButton, addFieldAButton, addFieldBButton, resetButton,
-                    toggleGravityButton, pauseButton, stepButton, savePreset, loadPreset, clear
+                new Label("Controls:"),
+                addEmitterButton, addOscillatingEmitterButton, addPulseEmitterButton, addFieldAButton, addFieldBButton, resetButton,
+                toggleGravityButton, pauseButton, stepButton, savePreset, loadPreset, clear
             );
             controls.getChildren().add(sliderContainer);
             controls.getChildren().add(fieldContainer);
@@ -350,13 +391,19 @@ package Pack;
         private void handleMouseDragged(MouseEvent e) {
             float x = (float) e.getX();
             float y = (float) e.getY();
-
+        
+            // Ensure emitter stays within bounds (not under the control box)
             if (draggingEmitter && selectedEmitter != null) {
+                x = Math.max(0, Math.min(x, WIDTH - CONTROL_BOX_WIDTH)); // X bound check
+                y = Math.max(0, Math.min(y, HEIGHT)); // Y bound check
                 selectedEmitter.getPosition().set(0, x);
                 selectedEmitter.getPosition().set(1, y);
             }
-
+        
+            // Ensure field stays within bounds
             if (draggingField && selectedFieldPoint != null) {
+                x = Math.max(0, Math.min(x, WIDTH - CONTROL_BOX_WIDTH)); // X bound check
+                y = Math.max(0, Math.min(y, HEIGHT)); // Y bound check
                 selectedFieldPoint.getPosition().set(0, x);
                 selectedFieldPoint.getPosition().set(1, y);
             }
@@ -374,24 +421,20 @@ package Pack;
         private void updateControlBox() {
             System.out.println("Update control box");
             VBox controlBox = (VBox) ((BorderPane) canvas.getScene().getRoot()).getRight();
+            
             if (selectedEmitter != null) {
-                // if (!controlBox.getChildren().contains(sliderContainer)) {
-                //     controlBox.getChildren().add(sliderContainer);
-                //     sliderContainer.setVisible(true);
-                // }
                 sliderContainer.setVisible(true);
             } else {
                 sliderContainer.setVisible(false);
             }
-
-            if(selectedFieldPoint != null)
-            {
+        
+            if (selectedFieldPoint != null) {
                 fieldContainer.setVisible(true);
-            }
-            else
-            {
+            } else {
                 fieldContainer.setVisible(false);
             }
+        
+            // Optionally, toggle button visibility if necessary
         }
 
         // private void updateUIWithPresetData() {
@@ -429,69 +472,91 @@ package Pack;
 
         private void update() {
             // Update particle positions in the backend
-            particleSystem.removeParticlesOutOfScreen(WIDTH, HEIGHT);
+            particleSystem.removeParticlesOutOfScreen(WIDTH-CONTROL_BOX_WIDTH, HEIGHT);
             float angle = (float) angleSlider.getValue();
             float spread = (float) spreadSlider.getValue();
-            float speed = (float)  velocitySlider.getValue();
-            if(selectedEmitter != null)
-            {
+            float speed = (float) velocitySlider.getValue();
+            if (selectedEmitter != null) {
                 selectedEmitter.setAngle(angle);
                 selectedEmitter.setSpread(spread);
                 selectedEmitter.setSpeed(speed);
             }
             float forceField = (float) fieldForceSlider.getValue();
-            if(selectedFieldPoint != null)
-            {
+            if (selectedFieldPoint != null) {
                 selectedFieldPoint.setFieldStrength(forceField);
             }
             particleSystem.setForces();
             particleSystem.updateAll();
+        
+            // Ensure particles are within bounds (if needed)
+            // for (Particle particle : particleSystem.getParticles()) {
+            //     Vector<Float> pos = particle.getPosition();
+            //     // Ensure particle stays within bounds
+            //     pos.set(0, Math.max(0, Math.min(pos.get(0), WIDTH - CONTROL_BOX_WIDTH))); // X bound check
+            //     pos.set(1, Math.max(0, Math.min(pos.get(1), HEIGHT))); // Y bound check
+            // }
         }
-
+        
+        
+        private Color interpolateColor(Color startColor, Color endColor, double factor) {
+            double red = startColor.getRed() + factor * (endColor.getRed() - startColor.getRed());
+            double green = startColor.getGreen() + factor * (endColor.getGreen() - startColor.getGreen());
+            double blue = startColor.getBlue() + factor * (endColor.getBlue() - startColor.getBlue());
+            return new Color(red, green, blue, 1.0);
+        }
         private void render() {
             GraphicsContext gc = canvas.getGraphicsContext2D();
-            gc.setFill(Color.BLACK); // Black background
+            gc.setFill(Color.BLACK); // Black background-03
             gc.fillRect(0, 0, WIDTH - CONTROL_BOX_WIDTH, HEIGHT);
-
+        
             // Draw particles
             List<Particle> particles = particleSystem.getParticles();
-            gc.setFill(Color.BLUE);
+        
             for (Particle particle : particles) {
+                // If showVelocityColors is false, use a default color (e.g., gray)
+                Color particleColor = Color.GRAY; // Default color when velocities are hidden
+                
+                if (showVelocityColors) {
+                    double velocity = Math.sqrt(Math.pow(particle.getVelocity().get(0), 2) + Math.pow(particle.getVelocity().get(1), 2));
+                    double maxVelocity = 20.0; // You can adjust this value to your simulation's max velocity
+        
+                    // Interpolation factor (between 0 and 1)
+                    double factor = Math.min(velocity / maxVelocity, 1.0); // Normalize velocity between 0 and 1
+        
+                    // Define the color based on the velocity
+                    particleColor = interpolateColor(Color.rgb(173, 216, 230), Color.rgb(0, 0, 139), factor);
+                }
+        
+                gc.setFill(particleColor);
                 gc.fillOval(particle.getPosition().get(0), particle.getPosition().get(1), 3, 3);
             }
-
-            // Draw emitters
+    
+        
+            // Draw emitters and field points similarly
             gc.setFill(Color.RED);
             for (Emitter emitter : particleSystem.getEmitters()) {
                 Vector<Float> position = emitter.getPosition();
-                if(selectedEmitter!=null && selectedEmitter.equals(emitter))
-                {
+                if (selectedEmitter != null && selectedEmitter.equals(emitter)) {
                     gc.fillOval(position.get(0), position.get(1), 10, 10);
                     gc.setStroke(Color.YELLOW); // Set the boundary color
                     gc.setLineWidth(2); // Set the thickness of the boundary
-                    gc.strokeOval(position.get(0) - 2, position.get(1) - 2, 14, 14); 
-                }
-                else
-                {
+                    gc.strokeOval(position.get(0) - 2, position.get(1) - 2, 14, 14);
+                } else {
                     gc.fillOval(position.get(0), position.get(1), 10, 10);
-                } 
+                }
             }
-
-            // Draw field points
+        
             gc.setFill(Color.GREEN);
             for (FieldPoint fieldPoint : particleSystem.getFieldPoints()) {
                 Vector<Float> position = fieldPoint.getPosition();
-                if(selectedFieldPoint!=null && selectedFieldPoint.equals(fieldPoint))
-                {
+                if (selectedFieldPoint != null && selectedFieldPoint.equals(fieldPoint)) {
                     gc.fillOval(position.get(0), position.get(1), 10, 10);
                     gc.setStroke(Color.YELLOW); // Set the boundary color
                     gc.setLineWidth(2); // Set the thickness of the boundary
-                    gc.strokeOval(position.get(0) - 2, position.get(1) - 2, 14, 14); 
-                }
-                else
-                {
+                    gc.strokeOval(position.get(0) - 2, position.get(1) - 2, 14, 14);
+                } else {
                     gc.fillOval(position.get(0), position.get(1), 10, 10);
-                } 
+                }
             }
         }
 

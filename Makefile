@@ -45,7 +45,7 @@ HEADERS_DIR=$(SRC_CPP)/headers
 JAVA_INCLUDES=-I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux
 
 # JavaFX SDK path in WSL
-JAVAFX_LIB=/home/pranav/Documents/openjfx-21.0.5_linux-x64_bin-sdk/javafx-sdk-21.0.5/lib
+JAVAFX_LIB=/home/ricky_ubuntu/Downloads/openjfx-21.0.5_linux-x64_bin-sdk/javafx-sdk-21.0.5/lib
  # Update this path according to your system
 
 # Targets

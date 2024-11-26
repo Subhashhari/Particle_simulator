@@ -398,7 +398,7 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
     }
 
     float A = env->CallFloatMethod(obj, getAmplitudeMethod);
-    cout << "Amplitude: " << A << endl;
+    //cout << "Amplitude: " << A << endl;
 
 
     jmethodID getFrequencyMethod = env->GetMethodID(emitterClass, "getFrequency", "()F");
@@ -408,7 +408,7 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
     }
 
     float f = env->CallFloatMethod(obj, getFrequencyMethod);
-    cout << "Freq: " << f << endl;
+    //cout << "Freq: " << f << endl;
 
 
 /*    jmethodID getVelocityMethod = env->GetMethodID(emitterClass, "getVelocity", "()F");
@@ -427,7 +427,7 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
     }
 
     float theta = env->CallFloatMethod(obj, getThetaMethod);
-    cout << "Theta: " << theta << endl;
+    //cout << "Theta: " << theta << endl;
 
     // Get the getPosition() method ID
     jmethodID getPositionMethod = env->GetMethodID(emitterClass, "getPosition", "()Ljava/util/Vector;");
@@ -441,7 +441,7 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
 
     // Convert the Java Vector<Float> to a C++ std::vector<float>
     vector<float> cppPositionVector = getCppVectorFromJavaVector(env, positionVector);
-    cout<<"Position: " << cppPositionVector[1];
+    //cout<<"Position: " << cppPositionVector[1];
 
     jmethodID getMeanPositionMethod = env->GetMethodID(emitterClass, "getMeanPosition", "()Ljava/util/Vector;");
     if (getMeanPositionMethod == nullptr) {
@@ -454,7 +454,7 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
 
     // Convert the Java Vector<Float> to a C++ std::vector<float>
     vector<float> cppMeanPositionVector = getCppVectorFromJavaVector(env, meanPositionVector);
-    cout<<"Mean: " << cppMeanPositionVector[1];
+    //cout<<"Mean: " << cppMeanPositionVector[1];
 
     float newTheta = theta + 2 * PI * f; // Increment theta by angular frequency
     float newY = cppMeanPositionVector[1] + A * sin(newTheta); // Update vertical position
