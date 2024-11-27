@@ -110,8 +110,8 @@ package Pack;
         Button addEmitterButton = new Button("Add Emitter");
         Button addOscillatingEmitterButton = new Button("Add Oscillating Emitter");
         Button addPulseEmitterButton = new Button("Add Pulse Emitter");        
-        Button addFieldAButton = new Button("Add FieldA");
-        Button addFieldBButton = new Button("Add FieldB");
+        Button addFieldAButton = new Button("Add Attractor");
+        Button addFieldBButton = new Button("Add Repulsor");
         Button resetButton = new Button("Reset");
         Button toggleGravityButton = new Button("Toggle Gravity");
         Button pauseButton = new Button("Pause/Resume");
@@ -120,8 +120,8 @@ package Pack;
         Button loadPreset = new Button("Load Preset");
         Button deleteEmitter = new Button("Delete Emitter");
         Button deleteField = new Button("Delete Field");
-        Button hideVelocitiesButton = new Button("Hide Velocities");
-        Button showVelocity = new Button("Show Velocity");
+        //Button hideVelocitiesButton = new Button("Hide Velocities");
+        Button showVelocity = new Button("Toggle Show Velocity");
 
         //Button presetButton = new Button("Preset Button");
         Button clear = new Button("Clear");
@@ -229,13 +229,13 @@ package Pack;
 // Add the buttons to the control box
             controls.getChildren().addAll(showVelocity);
 
-            hideVelocitiesButton.setOnAction(e -> {
-                // Toggle the visibility of velocity coloring
-                showVelocityColors = false; // Disable velocity coloring
-                updateControlBox();
-            });
+            // hideVelocitiesButton.setOnAction(e -> {
+            //     // Toggle the visibility of velocity coloring
+            //     showVelocityColors = false; // Disable velocity coloring
+            //     updateControlBox();
+            // });
 
-            controls.getChildren().add(hideVelocitiesButton);            
+            //controls.getChildren().add(hideVelocitiesButton);            
         
             savePreset.setOnAction(e -> {
                 FileChooser fileChooser = new FileChooser();
@@ -502,8 +502,9 @@ package Pack;
             double red = startColor.getRed() + factor * (endColor.getRed() - startColor.getRed());
             double green = startColor.getGreen() + factor * (endColor.getGreen() - startColor.getGreen());
             double blue = startColor.getBlue() + factor * (endColor.getBlue() - startColor.getBlue());
-            return new Color(red, green, blue, 1.0);
+            return new Color(red, green, blue, 1.0); // Full opacity
         }
+        
         private void render() {
             GraphicsContext gc = canvas.getGraphicsContext2D();
             gc.setFill(Color.BLACK); // Black background-03
@@ -513,52 +514,73 @@ package Pack;
             List<Particle> particles = particleSystem.getParticles();
         
             for (Particle particle : particles) {
-                // If showVelocityColors is false, use a default color (e.g., gray)
-                Color particleColor = Color.GRAY; // Default color when velocities are hidden
-                
+                // Default color for particles
+                Color particleColor = Color.GREY; 
+        
                 if (showVelocityColors) {
-                    double velocity = Math.sqrt(Math.pow(particle.getVelocity().get(0), 2) + Math.pow(particle.getVelocity().get(1), 2));
-                    double maxVelocity = 20.0; // You can adjust this value to your simulation's max velocity
+                    double velocity = Math.sqrt(
+                        Math.pow(particle.getVelocity().get(0), 2) +
+                        Math.pow(particle.getVelocity().get(1), 2)
+                    );
+                    double maxVelocity = 20.0; // Adjust based on simulation's max velocity
         
                     // Interpolation factor (between 0 and 1)
-                    double factor = Math.min(velocity / maxVelocity, 1.0); // Normalize velocity between 0 and 1
+                    double factor = Math.min(velocity / maxVelocity, 1.0);
         
                     // Define the color based on the velocity
-                    particleColor = interpolateColor(Color.rgb(173, 216, 230), Color.rgb(0, 0, 139), factor);
+                    particleColor = interpolateColor(
+                        Color.rgb(173, 216, 230), // Light Blue
+                        Color.rgb(0, 0, 139),    // Dark Blue
+                        factor
+                    );
                 }
         
                 gc.setFill(particleColor);
-                gc.fillOval(particle.getPosition().get(0), particle.getPosition().get(1), 3, 3);
+                gc.fillOval(
+                    particle.getPosition().get(0),
+                    particle.getPosition().get(1),
+                    3, 3
+                );
             }
-    
         
-            // Draw emitters and field points similarly
-            gc.setFill(Color.RED);
+            // Draw emitters
+            gc.setFill(Color.GREEN);
             for (Emitter emitter : particleSystem.getEmitters()) {
                 Vector<Float> position = emitter.getPosition();
                 if (selectedEmitter != null && selectedEmitter.equals(emitter)) {
                     gc.fillOval(position.get(0), position.get(1), 10, 10);
-                    gc.setStroke(Color.YELLOW); // Set the boundary color
-                    gc.setLineWidth(2); // Set the thickness of the boundary
+                    gc.setStroke(Color.YELLOW); // Highlight selected emitter
+                    gc.setLineWidth(2);
                     gc.strokeOval(position.get(0) - 2, position.get(1) - 2, 14, 14);
                 } else {
                     gc.fillOval(position.get(0), position.get(1), 10, 10);
                 }
             }
         
-            gc.setFill(Color.GREEN);
+            // Draw field points
             for (FieldPoint fieldPoint : particleSystem.getFieldPoints()) {
                 Vector<Float> position = fieldPoint.getPosition();
+                Color fieldColor = Color.GRAY; // Default color
+        
+                // Assign color based on field point type
+                if ("A".equals(fieldPoint.getType())) {
+                    fieldColor = Color.CYAN; // Type A is Blue
+                } else if ("B".equals(fieldPoint.getType())) {
+                    fieldColor = Color.RED; // Type B is Red
+                }
+        
+                gc.setFill(fieldColor);
                 if (selectedFieldPoint != null && selectedFieldPoint.equals(fieldPoint)) {
                     gc.fillOval(position.get(0), position.get(1), 10, 10);
-                    gc.setStroke(Color.YELLOW); // Set the boundary color
-                    gc.setLineWidth(2); // Set the thickness of the boundary
+                    gc.setStroke(Color.YELLOW); // Highlight selected field point
+                    gc.setLineWidth(2);
                     gc.strokeOval(position.get(0) - 2, position.get(1) - 2, 14, 14);
                 } else {
                     gc.fillOval(position.get(0), position.get(1), 10, 10);
                 }
             }
         }
+        
 
         public static void main(String[] args) {
             launch(args);
