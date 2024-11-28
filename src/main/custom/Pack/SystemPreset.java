@@ -22,12 +22,6 @@ public class SystemPreset {
 
     public void savePreset(String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            // Save particles
-            // writer.write("Particles\n");
-            // for (Particle particle : particleSystem.getParticles()) {
-            //     writer.write(particle.toString() + "\n");
-            // }
-
             // Save field points
             writer.write("FieldPoints\n");
             for (FieldPoint fieldPoint : particleSystem.getFieldPoints()) {
@@ -54,47 +48,55 @@ public class SystemPreset {
 
     public void loadPreset(String filename) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line;
-            String section = null;
+    String line;
+    String section = null; // Current section being parsed (Particles, FieldPoints, Emitters, Settings)
 
-            while ((line = reader.readLine()) != null) {
-                if (line.equals("Particles")) {
-                    section = "Particles";
-                } else if (line.equals("FieldPoints")) {
-                    section = "FieldPoints";
-                } else if (line.equals("Emitters")) {
-                    section = "Emitters";
-                } else if (line.equals("Settings")) {
-                    section = "Settings";
-                } else {
-                    switch (section) {
-                        case "Particles":
-                            Particle particle = Particle.parse(line);
-                            if (particle != null) particleSystem.getParticles().add(particle);
-                            break;
-                        case "FieldPoints":
-                            FieldPoint fieldPoint = FieldPoint.parse(line);
-                            if (fieldPoint != null) particleSystem.getFieldPoints().add(fieldPoint);
-                            break;
-                        case "Emitters":
-                            Emitter emitter = OscillatingEmitter.parse(line, particleSystem); // Adjust for other emitter types if needed
-                            if (emitter != null) particleSystem.getEmitters().add(emitter);
-                            break;
-                        case "Settings":
-                            if (line.startsWith("GravityEnabled=")) {
-                                particleSystem.setGravityEnabled(Integer.parseInt(line.split("=")[1]));
-                            } else if (line.startsWith("Friction=")) {
-                                particleSystem.setFriction(Double.parseDouble(line.split("=")[1]));
-                            } else if (line.startsWith("MaxParticles=")) {
-                                particleSystem.setMaxParticles(Integer.parseInt(line.split("=")[1]));
-                            }
-                            break;
-                    }
+    while ((line = reader.readLine()) != null) {
+            // Check if the line indicates a new section
+            if (line.equals("Particles")) {
+                section = "Particles";
+            } else if (line.equals("FieldPoints")) {
+                section = "FieldPoints";
+            } else if (line.equals("Emitters")) {
+                section = "Emitters";
+            } else if (line.equals("Settings")) {
+                section = "Settings";
+            } else {
+                // Parse the line based on the current section
+                switch (section) {
+                    case "Particles":
+                        Particle particle = Particle.parse(line);
+                        if (particle != null) {
+                            particleSystem.getParticles().add(particle); // Add the parsed particle to the system
+                        }
+                        break;
+                    case "FieldPoints":
+                        FieldPoint fieldPoint = FieldPoint.parse(line);
+                        if (fieldPoint != null) {
+                            particleSystem.getFieldPoints().add(fieldPoint); // Add the parsed field point to the system
+                        }
+                        break;
+                    case "Emitters":
+                        Emitter emitter = OscillatingEmitter.parse(line, particleSystem); // Adjust for other emitter types if needed
+                        if (emitter != null) {
+                            particleSystem.getEmitters().add(emitter); // Add the parsed emitter to the system
+                        }
+                        break;
+                    case "Settings":
+                        if (line.startsWith("GravityEnabled=")) {
+                            particleSystem.setGravityEnabled(Integer.parseInt(line.split("=")[1])); // Set gravity enabled/disabled
+                        } else if (line.startsWith("Friction=")) {
+                            particleSystem.setFriction(Double.parseDouble(line.split("=")[1])); // Set friction coefficient
+                        } else if (line.startsWith("MaxParticles=")) {
+                            particleSystem.setMaxParticles(Integer.parseInt(line.split("=")[1])); // Set maximum number of particles
+                        }
+                        break;
                 }
             }
-            System.out.println("Preset loaded from " + filename);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        System.out.println("Preset loaded from " + filename);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
     }
 }

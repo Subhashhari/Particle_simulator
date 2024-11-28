@@ -55,51 +55,48 @@ package Pack;
         private VBox fieldContainer;
         private boolean showVelocityColors = false;
 
-        // // @Override
-        // public class SimulationUI extends Application {
-        //     // Other fields as before...
         
-            private HBox presetButtonBox; // Box to hold preset buttons
-        
-            @Override
-            public void start(Stage stage) {
-                // Initialize particleSystem and other components
-                particleSystem = new ParticleSystem();
-        
-                BorderPane root = new BorderPane();
-                canvas = new Canvas(WIDTH - CONTROL_BOX_WIDTH, HEIGHT);
-                canvas.setOnMousePressed(this::handleMousePressed);
-                canvas.setOnMouseDragged(this::handleMouseDragged);
-                canvas.setOnMouseReleased(this::handleMouseReleased);
-                root.setCenter(canvas);
-        
-                VBox controlBox = createControls();
-                controlBox.setPrefWidth(CONTROL_BOX_WIDTH);
-                root.setRight(controlBox);
-        
-                // Initialize animation timer as before...
-                timer = new AnimationTimer() {
-                    @Override
-                    public void handle(long now) {
-                        if (!isPaused || isStepMode) {
-                            update();
-                            render();
-                            isStepMode = false;
-                        }
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+        private HBox presetButtonBox; // Box to hold preset buttons
+    
+        @Override
+        public void start(Stage stage) {
+            // Initialize particleSystem and other components
+            particleSystem = new ParticleSystem();
+    
+            BorderPane root = new BorderPane();
+            canvas = new Canvas(WIDTH - CONTROL_BOX_WIDTH, HEIGHT);
+            canvas.setOnMousePressed(this::handleMousePressed);
+            canvas.setOnMouseDragged(this::handleMouseDragged);
+            canvas.setOnMouseReleased(this::handleMouseReleased);
+            root.setCenter(canvas);
+    
+            VBox controlBox = createControls();
+            controlBox.setPrefWidth(CONTROL_BOX_WIDTH);
+            root.setRight(controlBox);
+    
+            // Initialize animation timer as before...
+            timer = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    if (!isPaused || isStepMode) {
+                        update();
+                        render();
+                        isStepMode = false;
                     }
-                };
-                timer.start();
-        
-                Scene scene = new Scene(root, WIDTH, HEIGHT);
-                stage.setScene(scene);
-                stage.setTitle("Interactive Particle Simulation");
-                stage.show();
-            }
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            timer.start();
+    
+            Scene scene = new Scene(root, WIDTH, HEIGHT);
+            stage.setScene(scene);
+            stage.setTitle("Interactive Particle Simulation");
+            stage.show();
+        }
 
         
     private VBox createControls() {
@@ -107,6 +104,7 @@ package Pack;
         VBox controls = new VBox(10);
         controls.setStyle("-fx-background-color: #333333; -fx-padding: 10; -fx-border-color: white; -fx-border-width: 2;");
 
+        //Adds buttons to the control panel for interactive simulation
         Button addEmitterButton = new Button("Add Emitter");
         Button addOscillatingEmitterButton = new Button("Add Oscillating Emitter");
         Button addPulseEmitterButton = new Button("Add Pulse Emitter");        
@@ -265,8 +263,7 @@ package Pack;
                     // Create a new button for this specific preset
                     Button presetButton = new Button(file.getName());
                     presetMap.put(presetButton, file); // Store the button-preset association in the map
-                    //Button presetButton = new Button("Preset Button");
-                    // Set an action for the preset button using the HashMa
+                    // Set an action for the preset button using the HashMap
                     presetButton.setOnAction(event -> {
                         // Clear the current particle system
                         particleSystem = new ParticleSystem();
@@ -277,9 +274,7 @@ package Pack;
                         if (currentFile!=null) {
                             // Load the preset into the new particle system
                             preset2.loadPreset(currentFile.getAbsolutePath());
-        
-                            // Update the UI controls to match the loaded preset's settings
-                            //updateUIWithPresetData();
+    
                         }
                     });
                     // Add button to presetButtonBox
@@ -297,7 +292,6 @@ package Pack;
                     particleSystem.getEmitters().remove(selectedEmitter);
                     selectedEmitter = null;
                     sliderContainer.setVisible(false);
-                    //updateControlBox();
                 }
             });
 
@@ -307,7 +301,6 @@ package Pack;
                     particleSystem.getFieldPoints().remove(selectedFieldPoint);
                     selectedFieldPoint = null;
                     fieldContainer.setVisible(false);
-                    //updateControlBox();
                 }
             });
         
@@ -324,10 +317,6 @@ package Pack;
         controls.getChildren().add(presetButtonBox); // Add the HBox at the bottom of the control panel
 
         return controls;
-            // Only add the slider container if selectedEmitter != null and draggingEmitter == false
-            // if (selectedEmitter != null) {
-            //     controls.getChildren().add(sliderContainer);
-            // }      
         }
 
         private HBox labeledSlider(String labelText, Slider slider) {
@@ -412,9 +401,6 @@ package Pack;
         private void handleMouseReleased(MouseEvent e) {
             draggingEmitter = false;
             draggingField = false;
-            // selectedEmitter = null;
-            // selectedFieldPoint = null;
-            //updateControlBox(); // Update UI after releasing the mouse
         }
         
         // Update the control box UI when emitter is selected or dragged
@@ -437,30 +423,7 @@ package Pack;
             // Optionally, toggle button visibility if necessary
         }
 
-        // private void updateUIWithPresetData() {
-        //     // Assuming that particleSystem has a currently loaded preset
-            
-        //     // Update the UI sliders with preset values if there's a selected emitter
-        //     if (selectedEmitter != null) {
-        //         velocitySlider.setValue(selectedEmitter.getSpeed());
-        //         spreadSlider.setValue(selectedEmitter.getSpread());
-        //         angleSlider.setValue(selectedEmitter.getAngle());
-        //         sliderContainer.setVisible(true); // Ensure the slider UI is visible
-        //     } else {
-        //         sliderContainer.setVisible(false); // Hide if no emitter is selected
-        //     }
-        
-        //     // Update field strength if there's a selected field point
-        //     if (selectedFieldPoint != null) {
-        //         fieldForceSlider.setValue(selectedFieldPoint.getFieldStrength());
-        //         fieldContainer.setVisible(true); // Ensure the field UI is visible
-        //     } else {
-        //         fieldContainer.setVisible(false); // Hide if no field is selected
-        //     }
-        
-        //     // Refresh the canvas to render the particle system state
-        //     render();
-        // }
+
         
         
 
@@ -487,14 +450,7 @@ package Pack;
             }
             particleSystem.setForces();
             particleSystem.updateAll();
-        
-            // Ensure particles are within bounds (if needed)
-            // for (Particle particle : particleSystem.getParticles()) {
-            //     Vector<Float> pos = particle.getPosition();
-            //     // Ensure particle stays within bounds
-            //     pos.set(0, Math.max(0, Math.min(pos.get(0), WIDTH - CONTROL_BOX_WIDTH))); // X bound check
-            //     pos.set(1, Math.max(0, Math.min(pos.get(1), HEIGHT))); // Y bound check
-            // }
+    
         }
         
         

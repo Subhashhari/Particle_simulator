@@ -4,17 +4,19 @@ import Pack.ParticleSystem;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+// Represents a particle emitter in the system
 public class Emitter
 {
-    protected Vector<Float> position;
-    private float spread;   
-    private float angle;
-    protected float speed;
-    protected float particlesMass;
-    protected boolean isEmitting;
-    protected ParticleSystem system;
-    private Circle visualRepresentation;
+    protected Vector<Float> position; 
+    private float spread;             
+    private float angle;              
+    protected float speed;            
+    protected float particlesMass;    
+    protected boolean isEmitting;     
+    protected ParticleSystem system;  
+    private Circle visualRepresentation; 
 
+    // Constructor to initialize the emitter
     public Emitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, ParticleSystem ps)
     {
         this.position = position;
@@ -24,10 +26,10 @@ public class Emitter
         this.isEmitting = false;
         this.particlesMass = particlesMass;
         this.system = ps;
-        this.visualRepresentation = new Circle(position.get(0), position.get(1), 10, Color.RED);
+        this.visualRepresentation = new Circle(position.get(0), position.get(1), 10, Color.RED); // Red circle
     }
 
-     // Getter for JavaFX graphical representation
+    // Get the visual representation (for JavaFX display)
     public Circle getVisualRepresentation() {
         return visualRepresentation;
     }
@@ -40,6 +42,7 @@ public class Emitter
         return particlesMass;
     }
     
+    // Update position and visual representation
     public void setPosition(Vector<Float> position) {
         this.position = position;
         visualRepresentation.setCenterX(position.get(0));
@@ -82,21 +85,25 @@ public class Emitter
         this.particlesMass = particlesMass;
     }
 
-
+    // Native method to calculate particle velocities (implemented in C/C++)
     public native float[][] getVelocities();
 
+    // Starts emitting particles
     public void emitParticles() 
     {
         this.isEmitting = true;
-        float[][] velocities = getVelocities();
-        system.addParticles(particlesMass, position, velocities);
+        float[][] velocities = getVelocities(); // Calculate velocities
+        system.addParticles(particlesMass, position, velocities); // Add particles to the system
     }
     
-        @Override
+    // Provides a string representation of the emitter
+    @Override
     public String toString() {
         return String.format("Emitter{position=%s/ spread=%f/ angle=%f/ speed=%f/ particlesMass=%f/ isEmitting=%b}",
             position.toString(), spread, angle, speed, particlesMass, isEmitting);
     }
+
+    // Parses a string to create an Emitter object
     public static Emitter parse(String line, ParticleSystem ps) {
         try {
             line = line.replace("Emitter{", "").replace("}", ""); // Remove enclosing braces
@@ -119,6 +126,7 @@ public class Emitter
         }
     }
 
+    // Parses a vector from a string representation
     private static Vector<Float> parseVector(String vectorString) {
         vectorString = vectorString.replaceAll("[\\[\\]]", ""); // Remove square brackets
         String[] values = vectorString.split(",\\s*");
@@ -129,7 +137,6 @@ public class Emitter
         return vector;
     }
 
-
+    // Native method to update the emitter properties (implemented in C/C++)
     public native void updateEmitter();
-    
 }

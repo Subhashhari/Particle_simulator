@@ -129,23 +129,7 @@ public class Particle {
     //public native void calcForce(); // To be implemented in C++ using JNI
     public native void update(); // To be implemented in C++ using JNI
 
-  /*
-    @Override
-    public String toString() {
-        return "Particle{" +
-                "mass=" + mass +
-                ", charge=" + charge +
-                ", velocity=" + velocity +
-                ", position=" + position +
-                ", angle=" + Math.toDegrees(Math.atan(velocity.get(1)/velocity.get(0))) +
-                ", force=" + force +
-                ", size=" + size +
-                ", lifespan=" + lifespan +
-                ", color='" + color + '\'' +
-                ", hasTrail=" + hasTrail +
-                '}';
-    }
-    */
+
     @Override
     public String toString() {
         return String.format("%f,%f,%s,%s,%s,%f,%d,%s,%b",

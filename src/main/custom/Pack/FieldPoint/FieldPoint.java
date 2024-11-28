@@ -17,7 +17,6 @@ public class FieldPoint {
     private Circle visualRepresentation; // JavaFX graphical representation
 
     // Constructor
-    // Constructor
     public FieldPoint(Vector<Float> position, float fieldStrength, String type) {
         this.position = position;
         this.fieldStrength = fieldStrength;

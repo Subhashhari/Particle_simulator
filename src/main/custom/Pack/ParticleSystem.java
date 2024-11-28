@@ -35,6 +35,8 @@ public class ParticleSystem
         emitters= new Vector<>();
         gravityEnabled = 0;
     }
+
+    //Getters and Setters
     public Vector<Particle> getParticles()
     {
         return particles;
@@ -67,12 +69,10 @@ public class ParticleSystem
         this.maxParticles = maxParticles;
     }
 
+    //Adds a particle
     public void addParticle(float mass, float charge, Vector<Float> velocity, Vector<Float> position, Vector<Float> force, float size, int lifespan, String color, boolean hasTrai)
     {
         particles.add(new Particle(mass,charge,velocity,position,force,size,lifespan,color,hasTrai));
-        // particles.add(new Particle(2.0f, 1.0f, new Vector<>(List.of(1.5f, 0.5f)), new Vector<>(List.of(1.0f, 5.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
-        // particles.add(new Particle(3.0f, 1.0f, new Vector<>(List.of(5.5f, 0.5f)), new Vector<>(List.of(2.0f, 1.0f)), new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
-
     }   
     public void addParticles(float particlesMass, Vector<Float> position, float[][] velocities)
     {
@@ -81,37 +81,43 @@ public class ParticleSystem
             particles.add(new Particle(particlesMass, 1.0f, new Vector<>(List.of(v[0], v[1])), position, new Vector<>(List.of(0.0f, 0.0f)),5.0f, 100, "red", true));
         }
     }
+    
+    //Adds a field point
     public void addFieldPoint(Vector<Float> position, float fieldStrength, String type)
     {
         fieldPoints.add(new FieldPoint(position, fieldStrength, type));
-        // fieldPoints.add(new FieldPoint(new Vector<>(List.of(5.0f, 0.0f)), 1.0f, "A"));
-        // fieldPoints.add(new FieldPoint(new Vector<>(List.of(0.0f, 5.0f)), 1.0f, "B"));
     }
+    //Adds an emitter
     public void addEmitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass)
     {
         emitters.add(new Emitter(position, speed, spread, angle, particlesMass, this));
     }
+
+    //Adds an oscillating emitter
     public void addOscillatingEmitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, float amplitude, float frequency)
     {
         emitters.add(new OscillatingEmitter(position, speed, spread, angle, particlesMass, amplitude, frequency, this));
     }
+    
+    //Adds a pulse emitter
     public void addPulseEmitter(Vector<Float> position, float speed, float spread, float angle, float particlesMass, float frequency)
     {
         emitters.add(new PulseEmitter(position, speed, spread, angle, particlesMass, frequency, this));
     }
+    
+    //Removes all particles that are out of the screen
     public void removeParticlesOutOfScreen(int width, int height)
     {
-        //System.out.println(width+","+height);
         for(int i=0 ; i<particles.size() ; i++)
-        {
-            //System.out.println(particles.get(i).getPosition().get(0)+","+particles.get(i).getPosition().get(1));
+        {        
             if(particles.get(i).getPosition().get(0)<0 || particles.get(i).getPosition().get(0)>width || particles.get(i).getPosition().get(1)<0 || particles.get(i).getPosition().get(1)>height)
             {
-                //System.out.println("Removing particle");
                 particles.remove(i);
             }
         }
     }
+    
+    //Displays all the particles in the system
     public void display()
     {
         for(int i=0;i<particles.size();i++)
@@ -120,50 +126,31 @@ public class ParticleSystem
         }
     }
 
-    // public void updateParticlesPosition()
-    // {
-    //     for(int i=0; i<emitters.size(); i++)
-    //     {
-    //         emitters.get(i).emitParticles();
-    //         if(emitters.get(i) instanceof OscillatingEmitter)
-    //             emitters.get(i).updateEmitter();
-    //     }
-    //     for(int i=0;i<particles.size();i++)
-    //     {
-    //         particles.get(i).update();
-    //     }
-    // }
-
-    // public Emitter getOscillatingEmitter(){
-	//     return oe;
-    // }
-
-    // public void setOscillatingEmitter(Emitter emitter){
-	//     this.oe=emitter;
-    // }
-
+    //Checks if gravity is enabled in the system
     public int isGravityEnabled()
     {
         return gravityEnabled;
     }
 
+    //Sets the gravity enabled flag in the system
     public void setGravityEnabled(int gravityEnabled)
     {
         this.gravityEnabled = gravityEnabled;
     }    
 
-    public native void setForces();
+    public native void setForces(); //Native method to calculate forces efficiently 
 
+
+    //Updates the particle positions and emitter positions
     public void updateAll()
     {
-        //System.out.println(particles.size());
         for(int i=0; i<emitters.size(); i++)
         {
             emitters.get(i).emitParticles();
+            //Updates the emitter position if it is an oscillating emitter
             if(emitters.get(i) instanceof OscillatingEmitter)
                 emitters.get(i).updateEmitter();
         }        
-//        setForces();
         for(int i=0;i<particles.size();i++)
         {
             particles.get(i).update();
