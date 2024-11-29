@@ -149,24 +149,15 @@ JNIEXPORT void JNICALL Java_Pack_Particle_Particle_update(JNIEnv* env, jobject o
     positionY += velocityY * dt + (forceY * dt * dt) / (2.0f * mass);
 
 
-
-    // Set updated position back in Java object
-    // setVectorElement(env, positionVector, 0, positionX);
-    // setVectorElement(env, positionVector, 1, positionY);
-
     float finalPos[2] = { positionX, positionY };
     jfloatArray jPositionArray = env->NewFloatArray(2);
     env->SetFloatArrayRegion(jPositionArray, 0, 2, finalPos);
     env->CallVoidMethod(obj, setPositionMethod, jPositionArray);
     env->DeleteLocalRef(jPositionArray);
 
-    // velocityX = min(maxVelocity, velocityX + (forceX / mass) * dt);
-    // velocityY = min(maxVelocity, velocityY + (forceY / mass) * dt);
     velocityX += (forceX / mass) * dt;
     velocityY += (forceY / mass) * dt;
 
-    // if(velocityX > maxVelocity) velocityX = maxVelocity;
-    // if(velocityY > maxVelocity) velocityY = maxVelocity;
 
     float finalVel[2] = { velocityX, velocityY };
     jfloatArray jVelocityArray = env->NewFloatArray(2);
@@ -179,28 +170,24 @@ JNIEXPORT void JNICALL Java_Pack_Particle_Particle_update(JNIEnv* env, jobject o
     env->DeleteLocalRef(positionVector);
     env->DeleteLocalRef(velocityVector);
 
-    // Update velocity based on force
+
 
 }
 
 JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject obj) {
     jclass particleSystemClass = env->GetObjectClass(obj);
 
-    // Retrieve getParticles and getFieldPoints methods
+   
     jmethodID getParticlesMethod = env->GetMethodID(particleSystemClass, "getParticles", "()Ljava/util/Vector;");
     jmethodID getFieldPointsMethod = env->GetMethodID(particleSystemClass, "getFieldPoints", "()Ljava/util/Vector;");
     jmethodID isGravityEnabledMethod = env->GetMethodID(particleSystemClass, "isGravityEnabled", "()I");
 
     if(isGravityEnabledMethod == nullptr) cout<<"isGravityEnabledMethod is null"<<endl;
-    //cout<<"isGravityEnabled: "<<env->CallBooleanMethod(obj, isGravityEnabledMethod)<<endl;
+  
     jobject particles = env->CallObjectMethod(obj, getParticlesMethod);
     jobject fieldPoints = env->CallObjectMethod(obj, getFieldPointsMethod);
     jint gravityEnabled = env->CallIntMethod(obj, isGravityEnabledMethod);
-    // Assuming `env`, `obj`, and `isGravityEnabledMethod` are already defined and initialized:
-    //jobject isGravityEnabled = env->CallObjectMethod(obj, isGravityEnabledMethod);
 
-    // // If you need to use it as a standard C++ boolean:
-    // bool gravityEnabled = (isGravityEnabled == JNI_TRUE);
 
 
     jclass vectorClass = env->FindClass("java/util/Vector");
@@ -243,7 +230,7 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
             jstring javaString = (jstring) env->CallObjectMethod(fieldPoint, getFieldTypeMethod);
             const char* charString = env->GetStringUTFChars(javaString, nullptr);
             std::string fieldType(charString);
-            //const char* fieldTypeChars = env->GetStringUTFChars(fieldType, NULL);
+            
 
             float fieldStrength = env->CallFloatMethod(fieldPoint, getFieldStrengthMethod);
 
@@ -271,7 +258,7 @@ JNIEXPORT void JNICALL Java_Pack_ParticleSystem_setForces(JNIEnv* env, jobject o
 
             env->ReleaseStringUTFChars(javaString, charString);
 
-            // Optional: Delete the local reference to the Java string to avoid memory leaks
+         
             env->DeleteLocalRef(javaString);
 
             env->DeleteLocalRef(fieldPointPosition);
@@ -302,7 +289,7 @@ JNIEXPORT jobjectArray JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* e
     }
 
     float angle = env->CallFloatMethod(obj, getAngleMethod);
-    //cout << "Angle: " << angle << endl;
+   
 
     jmethodID getSpeedMethod = env->GetMethodID(emitterClass, "getSpeed", "()F");
     if (getSpeedMethod == nullptr) {
@@ -311,7 +298,7 @@ JNIEXPORT jobjectArray JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* e
     }
 
     float speed = env->CallFloatMethod(obj, getSpeedMethod);
-    //cout << "Speed: " << speed << endl;
+    
 
     jmethodID getSpreadMethod = env->GetMethodID(emitterClass, "getSpread", "()F");
     if (getSpreadMethod == nullptr) {
@@ -320,13 +307,7 @@ JNIEXPORT jobjectArray JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* e
     }
 
     float spread = env->CallFloatMethod(obj, getSpreadMethod);
-    //cout << "Spread: " << spread << endl;
 
-    //get particleSystem
-    // jclass vectorClass = env->FindClass("java/util/Vector");
-    // jmethodID vectorSizeMethod = env->GetMethodID(vectorClass, "size", "()I");
-
-    // jmethodID getParticlesMethod = env->GetMethodID(emitterClass, "getSystem", "()Ljava/util/Vector;");
 
     vector<vector<float>> velocities;
             for (int i=0 ; i<10; i++) 
@@ -340,30 +321,7 @@ JNIEXPORT jobjectArray JNICALL Java_Pack_Emitter_Emitter_getVelocities(JNIEnv* e
         }
 
 
-    // if(particlesSize<5000)
-    // {
-    //     for (int i=0 ; i<10; i++) 
-    //     {
-    //         float angU = angle + spread/2;
-    //         float angL = angle - spread/2;
-    //         float ang = randomDouble(angL, angU);
-    //         float vx = cos(ang) * speed;
-    //         float vy = sin(ang) * speed;
-    //         velocities.push_back({vx, vy});
-    //     }
-    // }
-    // else
-    // {
-    //     for (int i=0 ; i<(particlesSize-5000); i++) 
-    //     {
-    //         float angU = angle + spread/2;
-    //         float angL = angle - spread/2;
-    //         float ang = randomDouble(angL, angU);
-    //         float vx = cos(ang) * speed;
-    //         float vy = sin(ang) * speed;
-    //         velocities.push_back({vx, vy});
-    //     }
-    // }
+
 
     // Determine the number of coordinates
     jsize numVelocities = velocities.size();
@@ -398,7 +356,7 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
     }
 
     float A = env->CallFloatMethod(obj, getAmplitudeMethod);
-    //cout << "Amplitude: " << A << endl;
+   
 
 
     jmethodID getFrequencyMethod = env->GetMethodID(emitterClass, "getFrequency", "()F");
@@ -408,18 +366,7 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
     }
 
     float f = env->CallFloatMethod(obj, getFrequencyMethod);
-    //cout << "Freq: " << f << endl;
-
-
-/*    jmethodID getVelocityMethod = env->GetMethodID(emitterClass, "getVelocity", "()F");
-    if (getVelocityMethod == nullptr) {
-        cerr << "Could not find getMass() method" << endl;
-        return;
-    }
-
-    vector<float> velocity = env->CallFloatMethod(obj, getVelocityMethod);*/
-
-
+   
     jmethodID getThetaMethod = env->GetMethodID(emitterClass, "getTheta", "()F");
     if (getThetaMethod == nullptr) {
         cerr << "Could not find getMass() method" << endl;
@@ -427,7 +374,7 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
     }
 
     float theta = env->CallFloatMethod(obj, getThetaMethod);
-    //cout << "Theta: " << theta << endl;
+
 
     // Get the getPosition() method ID
     jmethodID getPositionMethod = env->GetMethodID(emitterClass, "getPosition", "()Ljava/util/Vector;");
@@ -441,7 +388,6 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
 
     // Convert the Java Vector<Float> to a C++ std::vector<float>
     vector<float> cppPositionVector = getCppVectorFromJavaVector(env, positionVector);
-    //cout<<"Position: " << cppPositionVector[1];
 
     jmethodID getMeanPositionMethod = env->GetMethodID(emitterClass, "getMeanPosition", "()Ljava/util/Vector;");
     if (getMeanPositionMethod == nullptr) {
@@ -454,7 +400,7 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
 
     // Convert the Java Vector<Float> to a C++ std::vector<float>
     vector<float> cppMeanPositionVector = getCppVectorFromJavaVector(env, meanPositionVector);
-    //cout<<"Mean: " << cppMeanPositionVector[1];
+
 
     float newTheta = theta + 2 * PI * f; // Increment theta by angular frequency
     float newY = cppMeanPositionVector[1] + A * sin(newTheta); // Update vertical position
@@ -473,8 +419,7 @@ JNIEXPORT void JNICALL Java_Pack_Emitter_OscillatingEmitter_updateEmitter(JNIEnv
     // Convert the C++ vector to a Java Vector<Float>
     jobject javaPositionVector = getJavaVectorFromCppVector(env, cppPositionVector);
 
-    // Call setPosition(Vector<Float>) on the Emitter object
-   // jclass oscillatingemitterClass = env->GetObjectClass(obj);
+ 
     jmethodID setPositionMethod = env->GetMethodID(emitterClass, "setPosition", "(Ljava/util/Vector;)V");
 
     if (setPositionMethod != nullptr) {
