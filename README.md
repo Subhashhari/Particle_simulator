@@ -1,10 +1,24 @@
 
-# Particle Simulator
+<div align="center">
+  <h1 align="center">Particle Simulator</h1>
+
+  <p align="center">
+    The Particle System Simulator enables users to customize and explore particle and emitter behaviors, fields, and interactions for dynamic, real-time simulations.
+    <br />    
+  </p>
+</div>
 
 
 ## About the Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
+| ![Image 1](images/img1.jpg) | ![Image 2](images/img2.jpg) |
+|-------------------------------|-------------------------------|
+| Different emitters            | Some cool preset       |
+| ![Image 3](images/img3.jpg) | ![Image 4](images/img4.jpg) |
+| Save preset                  | Load Preset                  |
+
+
 
 The **Particle System Simulator** is an interactive, real-time application designed to explore the dynamics of particle systems. It provides users with extensive customization options for particle and emitter behaviors, including emission rates, velocities, masses, charges, and interactions with fields. The simulator is tailored for both educational and creative purposes, offering a platform for students to learn about particle dynamics and for designers to experiment with complex visual effects.
 
