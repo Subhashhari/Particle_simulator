@@ -9,7 +9,7 @@ The **Particle System Simulator** is an interactive, real-time application desig
 ### Key Features:
 - **Emitters**: Add, configure, and position emitters with customizable properties such as particle spread, direction, and special behaviors (oscillator, pulse, etc.).
 - **Field Points**: Create and manipulate attractive or repulsive field points to influence particle movement dynamically.
-- **Particles**: Define properties like mass, charge, velocity, and lifespan for individual particles, with real-time adjustments.
+- **Particles**: Define properties like mass, charge, and velocity for individual particles, with real-time adjustments.
 - **Environment Controls**: Adjust gravity, simulation speed, and boundary conditions, or observe particle interactions frame by frame.
 - **Preset Management**: Load predefined system setups or save custom configurations for reuse or sharing.
   
@@ -61,7 +61,7 @@ Here's a **Usage** section for the Particle System Simulator's README file:
 The Particle System Simulator is a powerful tool designed for visualizing and experimenting with particle systems. Follow these steps to get started:
 
 ### 1. Launch the Application
-- Run the executable JAR file or the provided script to start the simulator.
+- Run the program or the provided script to start the simulator.
 - Ensure all necessary libraries (JavaFX, JNI bindings, SFML) are installed and configured.
 
 ### 2. Adding Emitters
@@ -70,6 +70,7 @@ The Particle System Simulator is a powerful tool designed for visualizing and ex
   - **Position**: Drag the emitter to the desired location.
   - **Emission Rate**: Control how many particles are emitted per second.
   - **Spread**: Adjust the direction and randomness of emitted particles.
+  - **Speed**: Adjusts the speed of emission of particles.
 
 ### 3. Adding Fields
 - Click **"Add Field Point"** to create attractive or repulsive fields.
@@ -82,17 +83,18 @@ The Particle System Simulator is a powerful tool designed for visualizing and ex
   - **Mass**: Affects how particles respond to forces.
   - **Charge**: Alters interactions with fields.
   - **Velocity**: Adjust initial speed and direction.
-  - **Lifespan**: Set how long particles remain active.
+ 
 
 ### 5. Managing Environment Settings
 - Modify global settings to influence the entire simulation:
   - **Gravity**: Toggle gravity on/off and set its strength.
-  - **Boundary Conditions**: Decide if particles should bounce, wrap, or stop at the edges of the window.
+  - **Maximum Number of particles**: Can set the maximum number of particles that can be on the screen at a given time.
   - **Simulation Speed**: Slow down or speed up time for detailed observation.
 
 ### 6. Saving and Loading Presets
 - Use **"Save Preset"** to store your current simulation setup.
 - Load previously saved presets to revisit experiments or share configurations with others.
+- Recently loaded presets appear at the bottom on a separate panel for quick access.
 
 ### 7. Advanced Features
 - **Step-by-Step Simulation**: Pause the simulation and step through it frame by frame to analyze particle interactions.
@@ -105,7 +107,7 @@ The Particle System Simulator is a powerful tool designed for visualizing and ex
 
 ### Phase 1: Core Features
 1. **Basic Particle System**  
-   - Implement particle attributes: mass, velocity, charge, color, and lifespan.  
+   - Implement particle attributes: mass, velocity, charge, and color.  
    - Create a particle rendering system using JavaFX.  
    - Add basic interactions with field points and gravity.  
 
@@ -137,12 +139,11 @@ The Particle System Simulator is a powerful tool designed for visualizing and ex
    - Introduce sliders for fine-tuning particle attributes.  
 
 3. **Environment Enhancements**  
-   - Expand boundary conditions: particles can bounce or remain within bounds.  
-   - Allow simulation speed adjustments for fast-forward or slow-motion effects.  
+   - Expand boundary conditions: particles that leave the screen are deleted from memory to enable efficient rendering.  
 
 4. **UI/UX Improvements**  
    - Create an intuitive and visually appealing interface with JavaFX.  
-   - Provide real-time feedback with particle count, FPS, and active system status.  
+   - Provide real-time feedback, changing any setting will immediately reflect in change of particle behavior.  
 
 ---
 
@@ -154,10 +155,6 @@ The Particle System Simulator is a powerful tool designed for visualizing and ex
 2. **Advanced Preset Management**  
    - Enable exporting and sharing of presets for collaborative experimentation.  
    - Add the ability to load presets dynamically from external files.  
-
-3. **Introductory Tutorial**  
-   - Develop a step-by-step interactive tutorial to guide new users through the simulator’s features.  
-   - Include a skip option for advanced users.  
 
 ---
 
@@ -204,6 +201,6 @@ This project wouldn’t have been possible without the collective efforts and co
 
 Thanks to all the amazing contributors who helped build this project!
 
-| ![Rakshith Srinivasan](https://avatars.githubusercontent.com/u/144807403?s=400&u=b89bc20547a3b237aaf6fb44a1afddf7594ea498&v=4) | ![Subhash H](https://github.com/placeholder.png?size=100) | ![R. Ricky Roger](https://avatars.githubusercontent.com/u/144564986?s=400&u=5e7dd95f4733264c338cafe5223421f147fbfe7d&v=4) | ![Sathish Adithiyaa SV](https://github.com/placeholder.png?size=100) | ![Pranav Sandeep](https://avatars.githubusercontent.com/u/98758049?v=4) |  ![Bharat Dhulgond](https://avatars.githubusercontent.com/u/166221993?v=4)|
+| ![Rakshith Srinivasan](https://avatars.githubusercontent.com/u/144807403?s=400&u=b89bc20547a3b237aaf6fb44a1afddf7594ea498&v=4) | ![Subhash H](https://github.com/placeholder.png?size=100) | ![R. Ricky Roger](https://avatars.githubusercontent.com/u/144564986?s=400&u=5e7dd95f4733264c338cafe5223421f147fbfe7d&v=4) | ![Sathish Adithiyaa SV](https://avatars.githubusercontent.com/u/164901276?v=4) | ![Pranav Sandeep](https://avatars.githubusercontent.com/u/98758049?v=4) |  ![Bharat Dhulgond](https://avatars.githubusercontent.com/u/166221993?v=4)|
 |:-------------------------------------------------------------------:|:----------------------------------------------------------:|:--------------------------------------------------------------:|:------------------------------------------------------------------:|:---------------------------------------------------------------:|:------------------------------------------------------------:|
 | [Rakshith Srinivasan](https://github.com/rakshithsrinivasan)        | [Subhash H](https://github.com/subhashh)                   | [R. Ricky Roger](https://github.com/rrickyroger)               | [Sathish Adithiyaa SV](https://github.com/sathishadithiyaa)        | [Pranav Sandeep](https://github.com/pranavsandeep)             | [Bharat Dhulgond](https://github.com/bharatdhulgond)            |
