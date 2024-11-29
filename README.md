@@ -209,7 +209,7 @@ This section explains how user interactions translate into system operations:
 
 ## Acknowledgements
 
-We would like to express our gratitude to the Prof. Vivek Yadav, Prof. Ajay Bakre and the TAs for resolving our doubts and errors during the development of the project.
+We would like to express our gratitude to Prof. Vivek Yadav, Prof. Ajay Bakre and the TAs for resolving our doubts and errors during the development of the project.
 
 
 - **Libraries and Tools**  
