@@ -7,14 +7,14 @@
 The **Particle System Simulator** is an interactive, real-time application designed to explore the dynamics of particle systems. It provides users with extensive customization options for particle and emitter behaviors, including emission rates, velocities, masses, charges, and interactions with fields. The simulator is tailored for both educational and creative purposes, offering a platform for students to learn about particle dynamics and for designers to experiment with complex visual effects.
 
 ### Key Features:
-- **Emitters**: Add, configure, and position emitters with customizable properties such as particle spread, direction, and special behaviors (oscillator, pulse, etc.).
+- **Emitters**: Add, configure, and position emitters with customizable properties such as particle spread, angle, and special behaviors (oscillator, pulse, etc.).
 - **Field Points**: Create and manipulate attractive or repulsive field points to influence particle movement dynamically.
-- **Particles**: Define properties like mass, charge, and velocity for individual particles, with real-time adjustments.
-- **Environment Controls**: Adjust gravity, simulation speed, and boundary conditions, or observe particle interactions frame by frame.
+
+- **Environment Controls**: Adjust gravity, colours for speed, or observe particle interactions frame by frame.
 - **Preset Management**: Load predefined system setups or save custom configurations for reuse or sharing.
   
 ### Built with  
-Built with **JavaFX** for an intuitive UI and **C++** (using SFML) for efficient physics calculations, the simulator bridges the frontend and backend using **JNI** to deliver high-performance real-time visualizations.
+Built with **JavaFX** for an intuitive UI and **C++**  for efficient physics calculations, the simulator bridges the frontend and backend using **JNI** to deliver high-performance real-time visualizations.
 
 ---
 
@@ -39,7 +39,7 @@ _Below is an example of how you can instruct your audience on installing and set
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   https://github.com/Subhashhari/Particle_simulator.git
    ```
 2. Change the path to JAVAFX_LIB in the Makefile based on your system
 
@@ -50,33 +50,28 @@ _Below is an example of how you can instruct your audience on installing and set
    make run
    ```
 
-## Usage
-
-Here's a **Usage** section for the Particle System Simulator's README file:
-
----
 
 ## Usage
 
 The Particle System Simulator is a powerful tool designed for visualizing and experimenting with particle systems. Follow these steps to get started:
 
 ### 1. Launch the Application
-- Run the program or the provided script to start the simulator.
-- Ensure all necessary libraries (JavaFX, JNI bindings, SFML) are installed and configured.
+- Run the program using Makefile to start the simulator.
+- Ensure all necessary libraries (JavaFX, JNI bindings) are installed and configured.
 
 ### 2. Adding Emitters
 - Click **"Add Emitter"** to create a new particle emitter.
 - Configure emitter properties such as:
   - **Position**: Drag the emitter to the desired location.
-  - **Emission Rate**: Control how many particles are emitted per second.
-  - **Spread**: Adjust the direction and randomness of emitted particles.
-  - **Speed**: Adjusts the speed of emission of particles.
+  - **Angle**: Control the angle of emission.
+  - **Spread**: Adjust the spread of emission.
+
 
 ### 3. Adding Fields
-- Click **"Add Field Point"** to create attractive or repulsive fields.
+- Click **"Add Attractor"** to create attractive fields.
+- Click **"Add Repulsor"** to create repulsive fields.
 - Modify properties like:
   - **Field Strength**: Define how strongly the field influences nearby particles.
-  - **Field Type**: Switch between attraction and repulsion.
 
 ### 4. Configuring Particles
 - Customize particle properties for each emitter, such as:
@@ -89,7 +84,7 @@ The Particle System Simulator is a powerful tool designed for visualizing and ex
 - Modify global settings to influence the entire simulation:
   - **Gravity**: Toggle gravity on/off and set its strength.
   - **Maximum Number of particles**: Can set the maximum number of particles that can be on the screen at a given time.
-  - **Simulation Speed**: Slow down or speed up time for detailed observation.
+  - **Colours for particles**: When Show velocities is clicked on the colours for particles is shown based on the speed of the particles.
 
 ### 6. Saving and Loading Presets
 - Use **"Save Preset"** to store your current simulation setup.
@@ -176,7 +171,7 @@ We would like to express our gratitude to the following individuals and resource
 
 - **Libraries and Tools**  
   - **JavaFX**: For providing a robust framework for building the user interface and rendering the simulation.  
-  - **C++ with SFML**: For enabling high-performance physics calculations and backend support.  
+  - **C++**: For enabling high-performance physics calculations and backend support.  
   - **JNI (Java Native Interface)**: For seamless communication between the Java frontend and C++ backend.  
 
 - **Open Source Community**  
@@ -184,12 +179,12 @@ We would like to express our gratitude to the following individuals and resource
 
 - **Team Members**  
   - A special thanks to each team member for their dedication and collaboration in bringing this project to life:  
+    - **Sathish Adithiyaa SV** (IMT2023030) 
+    - **R. Ricky Roger** (IMT2023098)   
     - **Rakshith Srinivasan** (IMT2023544)  
     - **Subhash H** (IMT2023104)  
-    - **R. Ricky Roger** (IMT2023098)  
-    - **Sathish Adithiyaa SV** (IMT2023030)  
-    - **Bharat Dhulgond** (IMT2023504)  
     - **Pranav Sandeep** (IMT2023058)  
+    - **Bharat Dhulgond** (IMT2023504)
 
 - **Community Support**  
   - A huge thanks to the programming forums and developer communities, such as Stack Overflow, for their invaluable assistance and discussions.
