@@ -234,7 +234,8 @@ We would like to express our gratitude to Prof. Vivek Yadav, Prof. Ajay Bakre an
 
 This project wouldn’t have been possible without the collective efforts and contributions of everyone mentioned above. Thank you!
 
-
+## Demo link
+https://youtu.be/NA_X0Htm53k
 ## Contributors
 
 Thanks to all the amazing contributors who helped build this project!
