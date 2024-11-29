@@ -3,7 +3,7 @@
   <h1 align="center">Particle Simulator</h1>
 
   <p align="center">
-    The Particle System Simulator enables users to customize and explore particle and emitter behaviors, fields, and interactions for dynamic, real-time simulations.
+    The Particle Simulator enables users to customize and explore particle and emitter behaviors, fields, and interactions for dynamic, real-time simulations.
     <br />    
   </p>
 </div>
@@ -14,7 +14,7 @@
 
 | ![Image 1](images/img1.jpg) | ![Image 2](images/img2.jpg) |
 |-------------------------------|-------------------------------|
-| Different emitters            | Some cool preset       |
+| Different emitters            | Some cool presets       |
 | ![Image 3](images/img3.jpg) | ![Image 4](images/img4.jpg) |
 | Save preset                  | Load Preset                  |
 
@@ -30,7 +30,7 @@ The **Particle System Simulator** is an interactive, real-time application desig
 - **Preset Management**: Load predefined system setups or save custom configurations for reuse or sharing.
   
 ### Built with  
-Built with **JavaFX** for an intuitive UI and **C++**  for efficient physics calculations, the simulator bridges the frontend and backend using **JNI** to deliver high-performance real-time visualizations.
+Built with **JavaFX** for an intuitive UI and a **C++** backend for efficient physics calculations, the simulator uses **JNI** to call the cpp methods that handle the computationally intensive tasks from the java code files to deliver high-performance real-time visualizations.
 
 
 
@@ -76,7 +76,7 @@ _Below is an example of how you can instruct your audience on installing and set
 
 ## Usage
 
-The Particle System Simulator is a powerful tool designed for visualizing and experimenting with particle systems. Follow these steps to get started:
+The Particle Simulator is a powerful tool designed for visualizing and experimenting with particle systems. Follow these steps to get started:
 
 ### 1. Launch the Application
 - Run the program using Makefile to start the simulator.
@@ -209,14 +209,13 @@ This section explains how user interactions translate into system operations:
 
 ## Acknowledgements
 
-We would like to express our gratitude to the following individuals and resources for their support and inspiration during the development of this project:
-
+We would like to express our gratitude to the Prof. Vivek Yadav, Prof. Ajay Bakre and the TAs for resolving our doubts and errors during the development of the project.
 
 
 - **Libraries and Tools**  
   - **JavaFX**: For providing a robust framework for building the user interface and rendering the simulation.  
   - **C++**: For enabling high-performance physics calculations and backend support.  
-  - **JNI (Java Native Interface)**: For seamless communication between the Java frontend and C++ backend.  
+  - **JNI (Java Native Interface)**: For seamless communication between the Java and C++ code files.  
 
 - **Open Source Community**  
   - For the wealth of resources, documentation, and tutorials available, which helped us overcome technical challenges.  
