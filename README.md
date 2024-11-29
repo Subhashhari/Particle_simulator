@@ -43,12 +43,9 @@ Currently we have put the instructions for setting up the project on ubuntu.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
-
-Install JavaFX from gluon using this link (Note: The below link will start the download of the zip file, click on the link only on ubuntu)
+Stable versions of JDK(11+) and g++ are needed. Set up the JAVA_HOME variable to include the path of your JDK installation.  
+Install JavaFX from gluon using this link.
 https://download2.gluonhq.com/openjfx/21.0.5/openjfx-21.0.5_linux-x64_bin-sdk.zip
-
-Unzip and extract the folder
-Also java, g++ and JNI needs to be installed
 
 ### Installation
 
