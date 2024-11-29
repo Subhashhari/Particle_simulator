@@ -4,6 +4,8 @@
 
 ## About the Project
 
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
 The **Particle System Simulator** is an interactive, real-time application designed to explore the dynamics of particle systems. It provides users with extensive customization options for particle and emitter behaviors, including emission rates, velocities, masses, charges, and interactions with fields. The simulator is tailored for both educational and creative purposes, offering a platform for students to learn about particle dynamics and for designers to experiment with complex visual effects.
 
 ### Key Features:
@@ -16,18 +18,19 @@ The **Particle System Simulator** is an interactive, real-time application desig
 ### Built with  
 Built with **JavaFX** for an intuitive UI and **C++**  for efficient physics calculations, the simulator bridges the frontend and backend using **JNI** to deliver high-performance real-time visualizations.
 
----
+
 
 
 
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
+Currently we have put the instructions for setting up the project on ubuntu.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-Install JavaFX from gluon using this link 
+Install JavaFX from gluon using this link (Note: The below link will start the download of the zip file, click on the link only on ubuntu)
 https://download2.gluonhq.com/openjfx/21.0.5/openjfx-21.0.5_linux-x64_bin-sdk.zip
 
 Unzip and extract the folder
@@ -43,10 +46,16 @@ _Below is an example of how you can instruct your audience on installing and set
    ```
 2. Change the path to JAVAFX_LIB in the Makefile based on your system
 
-3. Run the program
+3. Clean the build directory
     ```sh
    make clean
-   make 
+   ```
+4. Compile the program
+    ```sh
+   make
+   ```
+5. Run the program
+   ```sh
    make run
    ```
 
@@ -94,6 +103,27 @@ The Particle System Simulator is a powerful tool designed for visualizing and ex
 ### 7. Advanced Features
 - **Step-by-Step Simulation**: Pause the simulation and step through it frame by frame to analyze particle interactions.
 - **Custom Behaviors**: Define oscillating emitters, pulsing particles, or other unique behaviors using the property editor.
+
+### 8. Data Flow and Internal Workings
+
+This section explains how user interactions translate into system operations:
+
+1. **User Interaction**:  
+   - Users interact with the UI through actions like adding emitters or adjusting sliders.
+   - These actions call methods in `SimulationUI`, such as `addEmitter` or `updateSliders`.
+
+2. **Emitter and Particle Generation**:  
+   - Emitters generate particles dynamically and call native C++ methods like `getVelocities()` to calculate particle velocities.
+
+3. **Particle System Updates**:  
+   - Particles are added to the `ParticleSystem` using methods like `addParticles()`.
+   - The `ParticleSystem` applies forces to particles via `setForces()` (C++) and updates their positions with `Particle.update()` (C++).
+
+4. **Rendering**:  
+   - The updated particle system is rendered using JavaFX's `GraphicsContext` in `SimulationUI`.
+
+5. **Preset Management**:  
+   - Presets are managed by `SystemPreset`, which saves and loads simulation states from files, affecting `ParticleSystem` and its components.
 
 ---
 
