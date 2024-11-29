@@ -126,8 +126,7 @@ public class Particle {
     this.lifetime = lifetime;
     }
     
-    //public native void calcForce(); // To be implemented in C++ using JNI
-    public native void update(); // To be implemented in C++ using JNI
+    public native void update(); // Implemented in C++ using JNI
 
 
     @Override

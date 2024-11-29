@@ -44,7 +44,4 @@ public class PulseEmitter extends Emitter {
             system.addParticles(particlesMass, position, velocities); // Add the particles to the system
         }
     }
-
-    // @Override
-    // public native float[][] getVelocities(); // Native method to fetch velocities
 }

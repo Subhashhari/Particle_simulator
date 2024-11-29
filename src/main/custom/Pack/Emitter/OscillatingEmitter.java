@@ -59,68 +59,6 @@ public class OscillatingEmitter extends Emitter
         this.meanPosition = meanPosition;
     }
     
-//     @Override
-// public String toString() {
-//     return "OscillatingEmitter{" +
-//         "position=" + getPosition() +
-//         ", emissionRate=" + getEmissionRate() +
-//         ", spread=" + getSpread() +
-//         ", angle=" + getAngle() +
-//         ", speed=" + getSpeed() +
-//         ", isEmitting=" + isEmitting() +
-//         ", amplitude=" + amplitude +
-//         ", frequency=" + frequency +
-//         ", theta=" + theta +
-//         '}';
-// }
-// public static OscillatingEmitter parse(String line, ParticleSystem ps) {
-//     try {
-//         // Remove class name and braces
-//         line = line.replace("OscillatingEmitter{", "").replace("}", "");
-
-//         // Split attributes by ", "
-//         String[] parts = line.split(", (?=[a-zA-Z]+)");
-
-//         // Parse position vector
-//         Vector<Float> position = parseVector(parts[0].split("=")[1]);
-
-//         // Parse individual attributes
-//         int emissionRate = Integer.parseInt(parts[1].split("=")[1]);
-//         float spread = Float.parseFloat(parts[2].split("=")[1]);
-//         float angle = Float.parseFloat(parts[3].split("=")[1]);
-//         float speed = Float.parseFloat(parts[4].split("=")[1]);
-//         boolean isEmitting = Boolean.parseBoolean(parts[5].split("=")[1]);
-//         float amplitude = Float.parseFloat(parts[6].split("=")[1]);
-//         float frequency = Float.parseFloat(parts[7].split("=")[1]);
-//         float theta = Float.parseFloat(parts[8].split("=")[1]);
-
-//         // Create OscillatingEmitter instance
-//         OscillatingEmitter emitter = new OscillatingEmitter(position, speed, spread, angle, amplitude, frequency, ps);
-
-//         // Set additional properties
-//         emitter.setEmissionRate(emissionRate);
-//         emitter.setTheta(theta);
-//         emitter.setIsEmitting(isEmitting);
-
-//         return emitter;
-//     } catch (Exception e) {
-//         System.err.println("Error parsing OscillatingEmitter: " + e.getMessage());
-//         e.printStackTrace();
-//         return null;
-//     }
-// }
-
-// Helper function for parsing a vector
-// private static Vector<Float> parseVector(String vectorString) {
-//     vectorString = vectorString.replace("[", "").replace("]", "");
-//     Vector<Float> vector = new Vector<>();
-//     for (String value : vectorString.split(", ")) {
-//         vector.add(Float.parseFloat(value));
-//     }
-//     return vector;
-// }
-
-
-
+    // Native method to update the emitter properties for each frame for oscillation (implemented in C++)
     public native void updateEmitter();
 }

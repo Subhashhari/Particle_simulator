@@ -118,10 +118,8 @@ package Pack;
         Button loadPreset = new Button("Load Preset");
         Button deleteEmitter = new Button("Delete Emitter");
         Button deleteField = new Button("Delete Field");
-        //Button hideVelocitiesButton = new Button("Hide Velocities");
         Button showVelocity = new Button("Toggle Show Velocity");
 
-        //Button presetButton = new Button("Preset Button");
         Button clear = new Button("Clear");
             // Sliders
             velocitySlider = createSlider(1, 10, 3, "Particle Velocity");
@@ -148,11 +146,6 @@ package Pack;
             );
             fieldContainer.setVisible(false); // Hide initially
 
-            // fieldContainer = new VBox(10);
-            // fieldContainer.setStyle("-fx-background-color: #555555; -fx-padding: 10; -fx-border-color: white; -fx-border-width: 1;");
-            // fieldContainer.getChildren().addAll(
-            //         deleteField
-            // );
         // HBox to hold preset buttons
         presetButtonBox = new HBox(5); // Set spacing between buttons
         presetButtonBox.setPadding(new Insets(0, 0, 0, 0)); // Padding at the top
@@ -209,8 +202,6 @@ package Pack;
                 }
             });
 
-// Add the following to the createControls method
-//Button showAcceleration = new Button("Show Acceleration");
 
             showVelocity.setOnAction(e -> {
                 // Logic to toggle velocity-based coloring
@@ -218,22 +209,9 @@ package Pack;
                 updateControlBox();
             });
 
-// showAcceleration.setOnAction(e -> {
-//     // Logic to toggle acceleration-based coloring
-//     showAccelerationColors = !showAccelerationColors;
-//     updateControlBox();
-// });
 
 // Add the buttons to the control box
-            controls.getChildren().addAll(showVelocity);
-
-            // hideVelocitiesButton.setOnAction(e -> {
-            //     // Toggle the visibility of velocity coloring
-            //     showVelocityColors = false; // Disable velocity coloring
-            //     updateControlBox();
-            // });
-
-            //controls.getChildren().add(hideVelocitiesButton);            
+            controls.getChildren().addAll(showVelocity);        
         
             savePreset.setOnAction(e -> {
                 FileChooser fileChooser = new FileChooser();
@@ -541,4 +519,4 @@ package Pack;
         public static void main(String[] args) {
             launch(args);
         }
-        }
+    }

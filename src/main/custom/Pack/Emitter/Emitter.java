@@ -85,7 +85,7 @@ public class Emitter
         this.particlesMass = particlesMass;
     }
 
-    // Native method to calculate particle velocities (implemented in C/C++)
+    // Native method to calculate particle velocities (implemented in C++)
     public native float[][] getVelocities();
 
     // Starts emitting particles
@@ -137,6 +137,6 @@ public class Emitter
         return vector;
     }
 
-    // Native method to update the emitter properties (implemented in C/C++)
+    // Native method to update the emitter properties for oscillating emitter (implemented in C++)
     public native void updateEmitter();
 }
