@@ -1,7 +1,0 @@
-FieldPoints
-Emitters
-Emitter{position=[126.63576, 8.982241]/ spread=1.000000/ angle=0.000000/ speed=3.000000/ particlesMass=1.000000/ isEmitting=true}
-Settings
-GravityEnabled=0
-Friction=0.0
-MaxParticles=0
