@@ -197,7 +197,7 @@ This section explains how user interactions translate into system operations:
 
 ---
 
-### Future Scope (Post-MVP)
+### Future Scope
 1. **Advanced Physics**  
    - Add support for inter-particle interactions and advanced collision detection.  
 
